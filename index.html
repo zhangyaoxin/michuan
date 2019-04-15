@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+  <title>蜜传</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.0/css/swiper.min.css">
+  <% for(var i in htmlWebpackPlugin.options.css) { %>
+  <link rel="stylesheet" href="<%= htmlWebpackPlugin.options.css[i] %>">
+  <% } %>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.0/js/swiper.min.js"></script>
+  <script src="/static/qrcode.min.js" type="text/javascript"></script>
+  <% for(var i in htmlWebpackPlugin.options.js) { %>
+  <script src="<%= htmlWebpackPlugin.options.js[i] %>"></script>
+  <% } %>
+  <!-- built files will be auto injected -->
+</body>
+
+</script>
+
+</html>

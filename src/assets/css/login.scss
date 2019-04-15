@@ -1,0 +1,126 @@
+ @import "../../assets/css/var.scss";
+
+ .login {
+    box-sizing: border-box;
+    height: 100%;
+    padding: 0.8rem;
+    background: #fff;
+  .login_type {
+    display: flex;
+    align-items: flex-end;
+    margin-top: 0.533333rem;
+  }
+  .login_title {
+    flex: 1;
+    font-size: 1.6rem;
+    color: #000;
+    font-weight: bold;
+  }
+  .login_sub_title {
+    height: 0.853333rem;
+    color: $mc_color;
+    font-size: 0.853333rem;
+  }
+  .login_main {
+    margin-top: 1.493333rem;
+  }
+  .van-cell {
+    padding: .8rem 0;
+    // height: 3.2rem;
+  }
+  .van-cell:not(:last-child)::after {
+    left: 0;
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .pw_icon {
+    margin-top: 0.32rem;
+    width: 1.066667rem;
+    height: 0.693333rem;
+  }
+  .verify_btn {
+    width: 4.266667rem;
+    height: 1.6rem;
+    line-height: 1.6rem;
+    text-align: center;
+    background: $mc_color_dark;
+    font-size: 0.64rem;
+    color: #fff;    
+    border-radius: .213333rem;
+  }
+
+  .verify_timer{
+    position:relative;
+    font-size:.8rem;
+    color:#ccc;
+  }
+
+  .verify_timer::before{
+    content:'';
+    display:block;
+    position:absolute;
+    left:-0.533333rem;
+    top:.16rem;
+    width:.053333rem;
+    height:.906667rem;
+    background:#e8e8e8;
+  }
+  
+  .forget_pw_btn {
+    margin: 0.906667rem 0 0;
+    text-align: right;
+    color: $mc_color;
+    text-decoration: underline;
+  }
+  .login_tip {
+    margin: 1rem auto 0;
+    width: 10.666667rem;
+    text-align: center;
+    color: #ccc;
+    font-size: 0.64rem;
+  }
+  .login_tip span {
+    color: $mc_color;
+  }
+  .login_btn {
+    margin-top: 0.906667rem;
+    width: 100%;
+    height: 2.666667rem;
+    line-height: 2.666667rem;
+    text-align: center;
+    background: $mc_color_dark;
+    color: #fff;
+    font-size: 0.96rem;
+    letter-spacing: 0.1rem;
+    border-radius: .213333rem;
+  }
+  .login_other {
+    margin-top: 4.533333rem;
+    color: #666;
+  }
+  .other_title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .line {
+    width: 6.4rem;
+    height: 0.053333rem;
+    background: #e8e8e8;
+  }
+  .other_list {
+    display: flex;
+    justify-content: space-around;
+    margin: 1.333333rem auto;
+    width: 11.2rem;
+  }
+  .other_item {
+    position: relative;
+    width: 33.3%;
+    text-align: center;
+  }
+  .other_item img {
+    width: 2.346667rem;
+    height: 2.346667rem;
+  }
+  
+  }

@@ -1,0 +1,241 @@
+/**
+       * base.css
+       * @Author: Lyle 
+       * @Date: 2018-12-05 14:13:48 
+       * @Last Modified by: Lyle
+       * @Last Modified time: 2018-04-20 16:56:56
+       */
+
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+fieldset,
+legend,
+input,
+textarea,
+p,
+blockquote,
+th,
+td,
+hr,
+button,
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+menu,
+nav,
+section {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+  font-size: 36px;
+  background: #f4f4f4;
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  height: 100%;
+  font: 14px/24px "Microsoft YaHei", "Arial", sans-serif;
+  /* background: #f4f4f4; */
+  color: #333;
+}
+
+#app {
+  height: 100%;
+}
+
+/*修改浏览器的滚动条*/
+::-webkit-scrollbar-track-piece {
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-track-piece:hover {
+  background-color: #f5f5f5;
+  border-left: 1px solid #d2d2d2;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #c2c2c2;
+  background-clip: padding-box;
+  border: 1px solid #979797;
+  min-height: 28px;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  border: 1px solid #636363;
+  background-color: #929292;
+}
+
+ul,
+ol {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+  color: #495060;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+img {
+  border: none;
+  vertical-align: top;
+}
+
+input {
+  outline: none;
+}
+
+/* input:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
+      } */
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+  color: #ccc;
+}
+
+input::-moz-placeholder,
+textarea::-webkit-input-placeholder {
+  /* Mozilla Firefox 19+ */
+  color: #ccc;
+}
+
+input:-moz-placeholder,
+textarea::-webkit-input-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+  color: #ccc;
+}
+
+input:-ms-input-placeholder,
+textarea::-webkit-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: #ccc;
+}
+
+// 缩放字体大小
+#app .font_size_10 {
+  font-size: 0.64rem;
+  transform: scale(0.83);
+}
+
+// 溢出隐藏
+.ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+// 置灰
+.grayscale {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+
+.font_blod {
+  font-weight: 600;
+}
+
+.van-tabs__nav {
+  transform: translateZ(0);
+}
+
+.title_border_left {
+  position: relative;
+  padding-left: 0.533333rem;
+  color: #333;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.title_border_left::before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0.266667rem;
+  width: 0.106667rem;
+  height: 0.8rem;
+  background: #ff4c4c;
+}
+
+// 缺勤页
+.nothing_wrap {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 9.013333rem;
+  font-size: 0.746667rem;
+  color: #999;
+  text-align: center;
+  background: #f4f4f4;
+}
+
+.nothing_icon {
+  width: 100%;
+  height: 7.093333rem;
+}
+
+.fans_title {
+  margin-top: 1.333333rem;
+  margin-bottom: 0.693333rem;
+  color: #666;
+  font-size: 0.853333rem;
+}
+
+.van-dialog__message {
+  text-align: left;
+}
+
+@font-face {
+  font-family: 'iconfont';
+  /* project id 889782 */
+  src: url('//at.alicdn.com/t/font_889782_fpoi2je1fo8.eot');
+  src: url('//at.alicdn.com/t/font_889782_fpoi2je1fo8.eot?#iefix') format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_889782_fpoi2je1fo8.woff2') format('woff2'),
+    url('//at.alicdn.com/t/font_889782_fpoi2je1fo8.woff') format('woff'),
+    url('//at.alicdn.com/t/font_889782_fpoi2je1fo8.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_889782_fpoi2je1fo8.svg#iconfont') format('svg');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+}

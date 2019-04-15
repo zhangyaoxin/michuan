@@ -1,0 +1,54 @@
+.normalBold {
+  font-weight: normal;
+}
+
+.weightBold {
+  font-weight: bold;
+}
+
+.fontSize14 {
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.fontSize18 {
+  font-size: 18px;
+  line-height: 30px;
+}
+
+.fontSize22 {
+  font-size: 22px;
+  line-height: 35px;
+}
+
+.leftAlign {
+  text-align: left;
+}
+
+.centerAlign {
+  text-align: center;
+}
+
+.rightAlign {
+  text-align: right;
+}
+
+.box-text {
+  outline-offset: 2px;
+  margin-bottom: 10px;
+}
+
+.box-text a {
+  color: #65d0cd;
+}
+
+.content img,
+.content video {
+  width: 100%;
+}
+
+.box-img,
+.box-video {
+  position: relative;
+  margin: 6px 0;
+}

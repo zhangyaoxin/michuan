@@ -1,0 +1,88 @@
+ .me_badge{   
+ .badge_header {
+    width: 100%;
+    height: 10.026667rem;
+    background: url('../../assets/images/badge_put_bg.png');
+    background-size: cover !important;
+  }
+  .badge_header.share {
+    background: url('../../assets/images/badge_share_bg.png');
+  }
+  .cur_badge_img {
+    margin: 0 auto;
+    padding-top: 1.333333rem;
+    width: 5.12rem;
+    height: 4.266667rem;
+  }
+  .cur_badge_img img {
+    width: 100%;
+  }
+  .cur_badge_info {
+    margin-top: 0.533333rem;
+    line-height: 1.386667rem;
+    text-align: center;
+    color: #fff;
+    font-size: 0.746667rem;
+  }
+  .col_ffe700 {
+    color: #ffe700;
+  }
+  .badge_section {
+    margin-top: 1.066667rem;
+    background: #fff;
+  }
+  .badge_title {
+    font-size: 0.853333rem;
+    color: #333;
+    padding: 0.8rem;
+    border-bottom: 0.01333rem solid #e8e8e8;
+  }
+  .badge_main {
+    padding: 0.8rem;
+  }
+  .badge_desc {
+    color: #666;
+    font-size: 0.64rem;
+  }
+  .badge_list_warp {
+    margin: 1.333333rem auto;
+    width: 15.146667rem;
+    text-align: center;
+  }
+  .badge_list_title {
+    position: relative;
+    margin: 0 auto;
+    width: 4.266667rem;
+    font-size: 0.8rem;
+    color: #3c2110;
+  }
+  .badge_list_title::before {
+    left: -3.733333rem;
+  }
+  .badge_list_title::before,
+  .badge_list_title::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 50%;
+    width: 3.733333rem;
+    height: 0.106667rem;
+    background: #3c2110;
+  }
+  .badge_list_title::after {
+    right: -3.733333rem;
+  }
+  .badge_list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 1.6rem;
+  }
+  .badge_item {
+    margin: 0.239333rem;
+    width: 3.306667rem;
+    height: 2.88rem;
+  }
+  .badge_item img {
+    width: 100%;
+  }
+ }

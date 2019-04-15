@@ -1,0 +1,67 @@
+<template>
+  <div class="me_attent">
+    <user-list ref="user_list" :params="params"></user-list>
+  </div>
+</template>
+
+<script>
+  import userList from '@@/user_list'
+  import { mapState } from 'vuex'
+  import { setPagesTitle } from '@/utils/utils'
+  export default {
+    name: 'me_attent',
+    components: { userList },
+    data () {
+      return {
+        params: {
+          id: '',
+          api: 'getUserAttentList'
+        }
+      }
+    },
+    computed: {
+      ...mapState({
+        userId: state => state.userInfo.id
+      }),
+    },
+    methods: {},
+    mounted () {
+      const id = this.$route.query.id || this.userId
+      if (id != this.userId) {
+        const name = this.$route.query.nickname + '的关注'
+        setPagesTitle(name)
+      }
+      this.params.id = id
+      this.$refs.user_list.page = 1
+      this.$nextTick(() => {
+        this.$refs.user_list.getUserList()
+      })
+    }
+  }
+</script>
+
+<style lang="scss">
+  .no_fans_wrap {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 9.013333rem;
+    font-size: 0.746667rem;
+    color: #999;
+    text-align: center;
+    background: #f4f4f4;
+  }
+
+  .nothing_icon {
+    width: 100%;
+    height: 7.093333rem;
+  }
+
+  .fans_title {
+    margin-top: 1.333333rem;
+    margin-bottom: 0.693333rem;
+    color: #666;
+    font-size: 0.853333rem;
+  }
+</style>
