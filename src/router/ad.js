@@ -25,7 +25,7 @@ export default [{
     name: 'ad_details',
     component: getComponent('views/ad/detail/index'),
     meta: {
-      title: '蜜传'
+      // title: '蜜传'
     }
   },
   {

@@ -20,7 +20,6 @@ axios.defaults.timeout = 10000
 axios.defaults.baseURL = 'http://h5.bvcio.com/api/'
 // axios.defaults.baseURL = 'http://demo.michuan.online/api/'
 
-// axios.defaults.baseURL = 'http://47.92.250.127/api/'
 
 // request请求拦截
 axios.interceptors.request.use(

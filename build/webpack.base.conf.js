@@ -1,3 +1,4 @@
+var webpack=require('webpack')
 'use strict'
 const path = require('path')
 const utils = require('./utils')
@@ -30,7 +31,13 @@ module.exports = {
     publicPath: process.env.NODE_ENV === 'production' ?
       config.build.assetsPublicPath : config.dev.assetsPublicPath
   },
-
+  plugins: [ 
+    new webpack.ProvidePlugin({ 
+          $:"jquery", 
+          jQuery:"jquery", 
+         "windows.jQuery":"jquery"
+ }) 
+],
   externals: {
     'vue': 'Vue',
     'vuex': 'Vuex',

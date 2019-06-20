@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-popup class="dialpad_wrap" v-model="isShowDialpadMd" position="bottom" :lock-scroll="false" :overlay="false">
+    <van-popup class="dialpad_wrap" v-model="show" position="bottom" :lock-scroll="false" :overlay="false">
       <div class="header">
         <div class="duration" v-if="!isLogin">
           <!-- <span>未登录,</span> -->
@@ -33,7 +33,7 @@
 
     <!-- 规则弹窗 -->
     <van-popup class="dialpad_rule_wrap" v-model="isShowRuleMd" overlay-class="rule_md">
-      <div>1. 账户中的蜂蜜都可以用于通话。对于在 蜜传发布中设置了传播激励的用户，可用 于通话的金额是总资产减去发布冻结金额 (即上架状态中的预算余额之和)</div>
+      <div>1. 蜜传卡中的蜂蜜都可以用于通话。</div>
       <div>2. 通话资费为每分钟1蜂蜜，不足1分钟的按1分钟计算</div>
       <div>3. 蜜传采用回拨方式通话，呼叫对方号码后，您将收到一个专线来电，接听即可通话</div>
       <div>4. 拨打本地固定电话时需要加区号。暂不支持400电话和特殊号码，例如110、120等</div>
@@ -62,6 +62,7 @@
     },
     data () {
       return {
+        show: true,
         list: [
           {
             num: '1',
@@ -119,7 +120,7 @@
     },
     computed: {
       ...mapState({
-        balance: state => parseInt(state.account.account_active),
+        balance: state => parseInt(state.account.account_cashgift),
         isLogin: state => state.isLogin,
         isShowDialpadMd: state => state.isShowDialpadMd
       }),
@@ -137,6 +138,7 @@
       // 获取用户信息
       async getUserInfo () {
         const { data } = await this.$store.dispatch('getUserInfo')
+        console.log(data)
         this.userInfo = data
         setStore('userInfo', data)
       },

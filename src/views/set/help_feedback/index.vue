@@ -22,15 +22,15 @@
             title: '采蜜攻略',
             link: 'mc_raiders'
           },
-          {
-            title: '发布任务',
-            link: 'put_task',
-            cache_count: '0',
-          },
-          {
-            title: '热门问题',
-            link: 'hot_issues',
-          },
+          // {
+          //   title: '发布任务',
+          //   link: 'put_task',
+          //   cache_count: '0',
+          // },
+          // {
+          //   title: '热门问题',
+          //   link: 'hot_issues',
+          // },
           {
             title: '意见反馈',
             link: 'feed_back',
@@ -44,11 +44,11 @@
 </script>
 
 <style scoped lang="scss">
-  .me_list[data-v-7119feb9] {
-    margin-top: 0.533333rem;
-    font-size: 0.8rem;
-    color: #333;
-  }
+  // .me_list[data-v-7119feb9] {
+  //   margin-top: 0.533333rem;
+  //   font-size: 0.8rem;
+  //   color: #333;
+  // }
   .me_list > div {
     padding-left: 0.8rem;
     background: #fff;
@@ -78,8 +78,8 @@
     background-repeat: no-repeat;
     background-size: 0.8rem 0.8rem;
   }
-  .me_list > div:nth-child(1),
-  .me_list > div:nth-child(4) {
+  // .me_list > div:nth-child(1),
+  .me_list > div:nth-child(2) {
     margin-top: 0.533333rem;
   }
 </style>

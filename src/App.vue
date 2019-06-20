@@ -3,7 +3,6 @@
     <!-- <div @click="dispatchMsg" style="border:1px solid #000;position:fixed;top:100px;right:20px;width:50px;height:50px;background:#fff;z-index:99999;">来消息</div> -->
     <router-view />
     <nav-bar v-if="isNav"></nav-bar>
-
     <audio id="msgAudio" style="display:none">
       <source :src="wav" type="audio/wav">
       <source :src="mp3" type="audio/mpeg">
@@ -31,7 +30,7 @@
     computed: {
       isNav () {
         // 需要添加底部导航的路由
-        const route = ['home', 'hall', 'mall_index', 'call', 'me']
+        const route = ['home','newMap','hall', 'mall_index', 'me']
         const curRoute = this.$route.name
         return route.includes(curRoute)
       }
@@ -96,8 +95,8 @@
     transform: translate(-50%, -50%) translateZ(0);
     /* margin: 0 auto; */
     width: 375px;
-    height: 667px;
-    border: 1px dashed #999;
+    height:667px;
+    border: 1px dashed #666;
   }
   .mar_b_55 {
     height: calc(100% - 50px) !important;

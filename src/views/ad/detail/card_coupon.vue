@@ -1,27 +1,17 @@
 <template>
-  <div class="coupon_list_wrap" v-show="info.coupon.length">
+   <div class="coupon_list_wrap" v-show="info.coupon.length">
     <div>
       <div class="coupon_item" :class="{'van-hairline--bottom':info.coupon.length>index+1}" v-for="(item,index) in info.coupon" :key="index" @click="useCoupon(item,index)">
-        <div v-if="item.has_used_coupon===0">
-          <div class="coupon_card" :class="{'used_coupon':item.left_earn_times!==0}">
-            <div class="user">
-              <div class="user_mask"></div>
-              <img :src="info.writer.thumbnail|filterImg('avatar')" alt="">
-            </div>
-            <div class="info" :class="{'info_len':String(Number(item.amount)).length>2}">
-              <div class="symbol" v-if="item.type===1">￥</div>
-              <div class="money">{{Number(item.amount)}}</div>
-              <div class="discount" v-if="item.type===2">折</div>
-              <div class="desc">
-                <p>@{{info.writer.nickname}}</p>
-                <p>{{item.describe}}</p>
-                <p>有效期至 {{item.expire_time|filterDate}}</p>
+          <div class="coupon_card">
+            <div class="coupon_money">
+                ￥{{item.value/100}}
               </div>
-            </div>
+              <div class="coupon_desc">
+                <p style="font-size: 14px; line-height: 20px; color: #ff6b6d">消费满{{item.uselimit/100}}元使用</p>
+                <p style="font-size: 12px; line-height: 20px; color: #ffa1a2">有效期至{{item.end}}</p>
+                <p style="font-size: 12px; line-height: 20px; color: #ffa1a2">仅限本店蜜传支付 每次一张</p>
+              </div>
           </div>
-          <div class="tip" v-if="item.left_earn_times!==0">距离获得优惠券还需要 {{item.left_earn_times}} 人浏览您的分享，加油!</div>
-        </div>
-        <div class="receive_coupon" v-else> 您与 {{item.receive_coupon_time}} 中领取过此优惠券 </div>
       </div>
     </div>
     <!-- 优惠码 -->
@@ -129,25 +119,42 @@
 
     .coupon_card {
       position: relative;
-      height: 70px;
+      height: 80px;
 
-      background: url("../../../assets/images/coupon_icon.png");
-      background-size: 100% 70px;
+      background: url("../../../assets/images/used_coupon_icon.png");
+      background-size: 100% 100%;
       color: #fff;
     }
-
-    .used_coupon {
-      background: url("../../../assets/images/used_coupon_icon.png");
-      background-size: 100% 70px;
-
-      .user_mask {
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        opacity: 0.8;
-      }
+    .coupon_money {
+      position: absolute;
+      top: 0;
+      left: 13%;
+      transform: translateX(-50%);
+      font-size: 30px;
+      letter-spacing: -3px;
+      color: #ff3c3e;
+      line-height: 80px;
     }
+    .coupon_desc {
+      position: absolute;
+      top: 14px;
+      left: 116px;
+      width: 200px; 
+      height: 70px;
+    }
+
+    // .used_coupon {
+    //   background: url("../../../assets/images/used_coupon_icon.png");
+    //   background-size: 100% 70px;
+
+    //   .user_mask {
+    //     display: block;
+    //     position: absolute;
+    //     top: 0;
+    //     left: 0;
+    //     opacity: 0.8;
+    //   }
+    // }
 
     .user {
       position: absolute;

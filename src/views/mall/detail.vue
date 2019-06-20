@@ -36,10 +36,10 @@
 
     <div class="btn_wrap">
       <div class="coupon_info">
-        <div class="coupon_price">{{info.price_coupons}}元优惠券( 需{{info.price_coupons/10}}蜂蜜 )</div>
+        <div class="coupon_price">{{info.price_coupons}}元优惠券</div>
         <div>有效期:{{info.coupon_start_time}}～{{info.coupon_end_time}}</div>
       </div>
-      <div class="exchange_btn" @click="handleExchange">立即兑换</div>
+      <div class="exchange_btn" @click="handleExchange">领券购买</div>
     </div>
 
     <van-dialog v-model="isShowMallList" :show-confirm-button="false">

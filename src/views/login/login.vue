@@ -29,24 +29,24 @@
     </div>
 
     <!-- 第三方登录 -->
-    <div class="login_other">
+    <div class="login_other" v-if="isWechatrBrowse">
       <div class="other_title">
         <div class="line"></div>
         <div>其他登陆</div>
         <div class="line"></div>
       </div>
       <div class="other_list">
-        <div class="other_item" v-if="isWechatrBrowse" @click="otherLogin('wechatLogin')">
+        <div class="other_item" @click="otherLogin('wechatLogin')">
           <img src="../../assets/images/wechat_icon.png" alt="">
         </div>
 
-        <div class="other_item" @click="otherLogin('qqLogin')">
+        <!-- <div class="other_item" @click="otherLogin('qqLogin')">
           <img src="../../assets/images/qq_icon.png" alt="">
-        </div>
+        </div> -->
         <!-- weiboLogin -->
-        <div class="other_item" @click="otherLogin('weiboLogin')">
+        <!-- <div class="other_item" @click="otherLogin('weiboLogin')">
           <img src="../../assets/images/weibo_icon.png" alt="">
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -100,8 +100,8 @@
       ...mapState({
         showReminderTime: state => state.showReminderTime,
         reminderTime: state => state.reminderTime,
+        isLogin: state => state.isLogin,
       }),
-
       isValidTel () {
         return validate({ tel: { val: this.tel } })
       },
@@ -147,16 +147,17 @@
               this.loginLocation = city
               setStore('loginLocation', city)
             } else {
-              this.loginLocation = '未知'
+              this.loginLocation = '南京'
             }
           })
       },
       showError () {
-        this.loginLocation = '未知'
+        this.loginLocation = '南京'
       },
 
       // 确认登录
       confirmLogin ({ openid, unionid, nickname,headimgurl, uesrInfo } = {}, type) {
+
         const login_platform = browserVersions().mobile || browserVersions().iPad ? 2 : 3
 
 
@@ -167,7 +168,7 @@
         let obj = {
           auth_server,
           login_platform,
-          login_location: '未知',
+          login_location: '南京',
           nickname,
           headimgurl,
         }
@@ -195,6 +196,37 @@
         this.$store.dispatch('login', obj)
       },
 
+      // 微信登录 
+      wechatLogin (code) {
+        const platform = browserVersions().mobile || browserVersions().iPad ? 2 : 3
+        console.log(platform)
+        const params = {
+          login_platform: platform,
+          login_location: '南京',
+        }
+        this.$api.wechat(params, code)
+        .then(data => {
+          console.log(data)
+          if(data.status) {
+            setStore('token', data.data.token, 'localStorage')
+            this.$toast('登录成功')
+            let fromPath = getStore('fromPath')
+            let routePath = {
+              path: '/',
+              query: {}
+            }
+            if (fromPath) {
+              routePath = JSON.parse(fromPath)
+            }
+            // if (routePath.path !== 'me') {
+            //   const { data } = this.$store.dispatch('getUserInfo')
+            //   setStore('userInfo', data)
+            // }
+            this.$store.commit('changeAd', {type: 'isLogin',value: true})
+            this.$router.replace(routePath)
+          }
+        })
+      },
       // 第三方登录
       otherLogin (type) {
         const path = getStore('fromPath') && JSON.parse(getStore('fromPath'))
@@ -241,12 +273,14 @@
           setStore('isBind', 0)
           return false
         }
+
+        this.wechatLogin(code)
         // 登录
-        this.$api.otherLoginCallBack(type, code)
-          .then(data => {
-            console.log(data)
-            this.confirmLogin(data, otherType)
-          })
+        // this.$api.otherLoginCallBack(type, code)
+        //   .then(data => {
+        //     console.log(code)
+        //     this.wechatLogin(code)
+        //   })
       },
 
     },

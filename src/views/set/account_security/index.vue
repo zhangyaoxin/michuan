@@ -9,14 +9,16 @@
         <div>{{info.phone|filterTel}}</div>
       </van-cell>
 
-      <van-cell title="微信" is-link @click="handleOtherLogin(auth1,1)">
-        <div class="list_icon" slot="icon">
-          <img src="../../../assets/images/wechat_hl_icon.png" alt="">
-        </div>
-        <div :class="{'no_bind':auth1}">{{filterLoginType(1)}}</div>
-      </van-cell>
+      <div v-if="filterLoginType(1) === '去绑定'">
+        <van-cell title="微信" is-link @click="handleOtherLogin(auth1,1)">
+          <div class="list_icon" slot="icon">
+            <img src="../../../assets/images/wechat_hl_icon.png" alt="">
+          </div>
+          <div :class="{'no_bind':auth1}">{{filterLoginType(1)}}</div>
+        </van-cell>
+      </div>
 
-      <van-cell title="QQ" is-link @click="handleOtherLogin(auth2,2)">
+      <!-- <van-cell title="QQ" is-link @click="handleOtherLogin(auth2,2)">
         <div class="list_icon" slot="icon">
           <img src="../../../assets/images/qq_hl_icon.png" alt="">
         </div>
@@ -28,7 +30,7 @@
           <img src="../../../assets/images/weibo_hl_icon.png" alt="">
         </div>
         <div :class="{'no_bind':auth3}">{{filterLoginType(3)}}</div>
-      </van-cell>
+      </van-cell> -->
     </van-cell-group>
 
     <van-cell-group class="cell_group">
@@ -45,6 +47,7 @@
 
 <script>
   import { setStore } from '@/utils/utils'
+import dialpadVue from '../../call/components/dialpad.vue';
   export default {
     name: 'account_security',
     components: {},
@@ -57,7 +60,8 @@
         auth1: true,
         auth2: true,
         auth3: true,
-        auth4: true
+        auth4: true,
+        show: true
       }
     },
     filters: {
@@ -65,7 +69,7 @@
         const before = String(tel).slice(0, 3)
         const after = String(tel).slice(-4, 11)
         return before + '****' + after
-      }
+      },  
     },
     computed: {
       jumpRoute () {
@@ -89,7 +93,8 @@
           if (type === 1 && !arr.find(it => it.credential_unionid)) {
             this['auth' + type] = true
             return '去绑定'
-          } else {
+          } 
+          else {
             this['auth' + type] = false
             if (type === 4) return '去修改'
             return '解除绑定'

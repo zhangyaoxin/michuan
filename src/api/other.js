@@ -12,8 +12,14 @@ export default {
   },
   // 登录
   login: data => {
-    return axios.post('login', data)
+    return axios.post('v1/login', data)
   },
+
+  //微信登录
+  wechat: (data, code) => {
+    return axios.post('v1/wechat/login/wx19bdb96099591fef' + '/' + code, data)
+  },
+  
 
   // 微信登录
   wechatLogin: () => {

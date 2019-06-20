@@ -73,6 +73,15 @@ const actions = {
         console.log('登录结果 ==>', data)
         if (data.status) {
           setStore('token', data.data.token, 'localStorage')
+          const params = {
+            appID: 'wxdddfda3352cb6a08',
+            url: window.location.href.split('#')[0]
+          }
+          const appID = "wxdddfda3352cb6a08"
+          api.getShareUrl(appID, params)
+          .then(data => {
+            console.log(data)
+          })
           // 跳回原来地址
           let fromPath = getStore('fromPath')
           let routePath = {
@@ -147,10 +156,7 @@ const actions = {
       ...res
     } = await api.otherLoginCallBack(type, code)
     console.log('openid  unionid ==>', openid, unionid, nickname, headimgurl, res)
-
-    if (isBindWx) {
-      return res
-    }
+    
 
 
     const params = {
@@ -202,6 +208,10 @@ const actions = {
     commit('changeValue', {
       type: 'isLogin',
       value: false
+    })
+    commit('changeValue', {
+      type: 'account',
+      value: 0
     })
     ws.close()
     router.push('me')

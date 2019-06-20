@@ -4,7 +4,7 @@
       <van-cell title="账户与安全" is-link :to="isLogin?'account_security':'login'"> </van-cell>
     </van-cell-group>
 
-    <van-cell-group class="cell_group">
+    <!-- <van-cell-group class="cell_group">
       <van-cell title="帮助与反馈" is-link to="help_feedback"></van-cell>
     </van-cell-group>
 
@@ -12,7 +12,7 @@
       <van-cell title="关于蜜传" is-link to="about_me">
         <div>版本1.2.0</div>
       </van-cell>
-    </van-cell-group>
+    </van-cell-group> -->
 
     <div class="set_button" v-if="isLogin" @click="signOut"> 退出登录 </div>
   </div>

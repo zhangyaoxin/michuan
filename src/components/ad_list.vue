@@ -4,18 +4,26 @@
       <van-list v-model="isLoading" :finished="isFinished" @load="pullList" :immediate-check="false">
         <div class="home_ad_item van-hairline--bottom" :class="{'has_read':$route.name==='home'&&item.has_read===1}" v-for="(item,index) in adList" :key="index">
           <div class="ad_user_wrap">
-            <router-link :to="{path:'me_index',query:{id:item.user_id}}" class="ad_user_info">
+            <router-link v-if="!item.merchant" :to="{path:'me_index',query:{id:item.user_id}}" class="ad_user_info">
               <div class="ad_user_avatar">
                 <img :src="item.writer.thumbnail|filterImg('avatar')" alt="">
               </div>
               <div class="ad_user_nickname">{{item.writer.nickname}}</div>
+              <img class="ad_user_img" src="./../assets/images/arrow.png" alt="">
               <!-- <div class="ad_user_level">Lv1</div> -->
             </router-link>
+            <a v-else :href="'http://h5.bvcio.com/mc_b/shop.html?shopId='+item.merchant.hashID" class="ad_user_info">
+              <div class="ad_user_avatar">
+                <img :src="item.merchant.logo" alt="">
+              </div>
+              <div class="ad_user_nickname">{{item.merchant.title}}</div>
+              <img class="ad_user_img" src="./../assets/images/arrow.png" alt="">
+            </a>
 
-            <div class="ad_user_attent" :class="{'attent':item.is_concern===1}" @click="attentBtn(item.is_concern,item.writer.id,index)" v-if="userId!=item.writer.id">
+            <!-- <div class="ad_user_attent" :class="{'attent':item.is_concern===1}" @click="attentBtn(item.is_concern,item.writer.id,index)" v-if="userId!=item.writer.id">
               <div class="attent_icon"></div>
               <div>{{item.is_concern===1?'已关注':'关注'}}</div>
-            </div>
+            </div> -->
           </div>
 
           <router-link :to="{path:'ad_details',query:{id:item.id}}" class="ad_info" @click="jumpRoute">
@@ -29,9 +37,10 @@
           </router-link>
 
           <div class="ad_time">
-            <span>{{item.created_at|filterTime}} 发布</span>
+            <span>{{item.created_at|filterTime}}</span>
             <span>浏览 {{item.total_browse_count}}</span>
             <span>分享 {{item.total_share_count}}</span>
+            <div class="package" v-if="item.reward.length>0">红包</div>
           </div>
         </div>
       </van-list>
@@ -51,6 +60,7 @@
   import goTop from '@@/go_top'
   import { mapState } from 'vuex'
   import { getStore } from '@/utils/utils'
+  let Base64 = require('js-base64').Base64
   export default {
     name: 'ad_list',
     components: { goTop },
@@ -90,21 +100,24 @@
       getAdList () {
         const page = this.page
         const api = this.api
+        const areaNum = getStore('area_num', 'localStorage')
         if (page === 1) this.adList = []
-        const own_article = 1
-
+        const own_article = 0
         const params = {
           page,
           status: 4,
+          own_article: 0,
+          areaNum,
           ...this.searchCond
         }
 
         if (this.isOwn) {
-          params.own_article = 1
+          params.own_article = 0
         }
 
         this.$api[api](params)
           .then(data => {
+            console.log(api)
             console.log('获取广告列表 ==>', data)
             this.isLoadRefresh = false
             this.isLoading = false
@@ -113,6 +126,9 @@
                 it.thumbnail = JSON.parse(it.thumbnail) || {}
               })
               this.adList.push(...data.data.data)
+              for (let i = 0; i < this.adList.length; i++) {
+                // this.adList[i].writer.nickname = Base64.decode(this.adList[i].writer.nickname)
+              }
               if (data.data.total / data.data.per_page <= page) {
                 this.isFinished = true
               } else {
@@ -208,6 +224,7 @@
       transform: translateZ(0);
       display: flex;
       align-items: center;
+      position: relative;
       margin-bottom: 0.533333rem;
     }
 
@@ -224,11 +241,15 @@
       margin-left: 0;
       width: 18px;
       height: 18px;
+      line-height: 18px;
+      border-radius: 18px;
+      border: 1px solid #e8e8e8;
       overflow: hidden;
     }
 
     .ad_user_avatar img {
       width: 100%;
+      height: 100%;
     }
 
     .ad_user_nickname {
@@ -236,6 +257,14 @@
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
+    }
+    .ad_user_img {
+      width: 1.28rem;
+      height: 1.28rem;
+      position: absolute;
+      right: 0;
+      top: 1px;
+      // margin-left: 9.8rem;
     }
 
     .ad_user_level {
@@ -302,6 +331,7 @@
       -moz-line-clamp: 2;
     }
     .sub_title {
+      margin-top: 5px;
       width: 11.466667rem;
       font-size: 0.64rem;
       font-weight: normal;
@@ -350,6 +380,15 @@
 
     .ad_time {
       color: #a2a6ad;
+    }
+
+    .package {
+      line-height: 14px;
+      display: inline-block;
+      color: #ff3c3e;
+      border: 1px solid #ff3c3e;
+      padding: 0 5px;
+      border-radius: 15px;
     }
 
     .nothing_wrap {

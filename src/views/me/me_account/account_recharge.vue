@@ -2,7 +2,7 @@
   <div class="me_recharge">
     <div class="home_tab_wrap">
       <van-tabs v-model="curTab" sticky>
-        <van-tab title="在线充值">
+        <!-- <van-tab title="在线充值">
           <van-field v-model="money" :value="money" type="text" label="充值金额" placeholder="请输入充值金额">
             <span slot="icon">元</span>
           </van-field>
@@ -11,7 +11,7 @@
             <span slot="icon">蜂蜜</span>
           </van-field>
 
-          <div class="tip">温馨提示：当前汇率 <span class="col_ff4c">1</span> 元 = <span class="col_ff4c"> {{1|filterBuyExchange('buy')}}</span> 蜂蜜</div>
+          <div class="tip">温馨提示：当前汇率 <span class="col_ff4c">1</span> 元 = <span class="col_ff4c"> {{1|filterSellExchange('sell')}}</span> 蜂蜜</div>
 
           <div class="type">
             <div class="line left"></div>
@@ -28,9 +28,9 @@
             </van-cell-group>
           </van-radio-group>
           <div class="btn" :class="{'btn_hl':money!=0&&money.length}" @click="handleRecharge()">确认支付</div>
-        </van-tab>
+        </van-tab> -->
 
-        <van-tab title="充值卡充值">
+        <van-tab title="蜜传卡充值">
           <van-field v-model="card_no" type="number" placeholder="请输入充值卡卡号">
             <img class="recharge_icon" src="../../../assets/images/recharge_code.png" slot="left-icon" alt="">
           </van-field>

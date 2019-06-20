@@ -9,9 +9,9 @@
       <van-cell title="昵称" is-link @click="isShowPopup('isShowText','nickname')">
         <div>{{userInfo.nickname}}</div>
       </van-cell>
-      <van-cell title="签名" is-link @click="isShowPopup('isShowText','motto')">
+      <!-- <van-cell title="签名" is-link @click="isShowPopup('isShowText','motto')">
         <div>{{userInfo.motto||'我也来说点什么，介绍我自己!'}}</div>
-      </van-cell>
+      </van-cell> -->
     </van-cell-group>
 
     <!-- <van-cell-group class="cell_group">
@@ -74,7 +74,7 @@
 <script>
   import areaList from '@@@/area.js'
   import cropWrap from '@@/crop'
-
+  let Base64 = require('js-base64').Base64
   import { mapState } from 'vuex'
   import { getStore, setStore } from '@/utils/utils'
   export default {
@@ -222,6 +222,7 @@
       const { data } = await this.$store.dispatch('getUserInfo')
       this.currentDate = new Date(Number(data.birthday) * 1000)
       this.userInfo = data
+      // this.userInfo.nickname = Base64.decode(this.userInfo.nickname)
     }
   }
 </script>

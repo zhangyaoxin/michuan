@@ -18,7 +18,7 @@
 
     <transition name="reward">
       <div class="reward_money_wrap shareMc" :class="{'share_animation':isShareing}" v-if="isShareMd">
-        <span class="reward_money_title" @click="isShareTip=true">分享赚更多</span>
+        <span class="reward_money_title" @click="isShareTip=true">分享领红包</span>
       </div>
     </transition>
 
@@ -324,7 +324,7 @@
       left: 77%;
       bottom: 3.8rem;
       height: 1.1rem;
-      line-height: 12px;
+      line-height: 15px;
       border-radius: 3.533333rem;
       transform: none;
     }

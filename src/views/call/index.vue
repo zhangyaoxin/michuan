@@ -50,7 +50,7 @@
     computed: {
       ...mapState({
         isLogin: state => state.isLogin,
-        balance: state => parseInt(state.account.account_active),
+        balance: state => parseInt(state.account.account_cashgift),
       }),
       isShowDialpadMd: {
         get () {
@@ -72,6 +72,7 @@
     },
     methods: {
       editPhone (num) {
+        console.log(num,'liloi')
         this.isShowDialpadMd = false
         this.curTel = num
         this.handleCall()
@@ -110,7 +111,7 @@
               this.isShowCallingMd = true
             } else {
               if (data.response_code === 10700) {
-                this.$toast('您所拨打的电话号码是空号！')
+                this.$toast('通话失败')
               } else {
                 this.$toast(data.msg)
               }

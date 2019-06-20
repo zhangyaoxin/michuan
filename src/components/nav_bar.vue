@@ -20,16 +20,16 @@
       return {
         navList: [
           {
+            title: '首页',
+            icon: require('@/assets/images/nav_home.png'),
+            iconHl: require('@/assets/images/nav_home_hl.png'),
+            route: 'newMap'
+          },
+          {
             title: '抢红包',
             icon: require('@/assets/images/nav_reward.png'),
             iconHl: require('@/assets/images/nav_reward_hl.png'),
             route: 'hall'
-          },
-          {
-            title: '电话',
-            icon: require('@/assets/images/nav_call.png'),
-            iconHl: require('@/assets/images/nav_call_hl.png'),
-            route: 'call'
           },
            {
             title: '淘商城',

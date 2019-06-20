@@ -3,11 +3,11 @@
     <div class="header">
       <div class="use_title">
         <span>可提现金额(元)</span>
-        <van-icon class="active_tip" name="question-o" @click="activeTip" />
+        <!-- <van-icon class="active_tip" name="question-o" @click="activeTip" /> -->
       </div>
-      <div class="use_num" v-show="active">{{active|filterBuyExchange('sell')}}</div>
+      <div class="use_num">{{active|filterBuyExchange('sell')}}</div>
       <div class="user_mic">折合 {{Number(active)}} 蜂蜜，购物可抵 {{Number(active*10).toFixed("1")}} 元</div>
-      <div class="exchange">当前汇率 1 元 = {{1|filterBuyExchange('buy')}} 蜂蜜</div>
+      <div class="exchange">当前汇率 1 元 = {{1|filterSellExchange('sell')}} 蜂蜜</div>
     </div>
 
     <div class="field">
@@ -30,7 +30,7 @@
     <div class="tip">
       <p>温馨提示：</p>
       <p>1.只支持整数金额提现</p>
-      <p>2.每天最多提现3次，每次最低1元，最高50元</p>
+      <p>2.每天最多提现3次，每次最低1元，最高100元</p>
       <p>3.可提现时间为7:00至23:00</p>
     </div>
 
@@ -43,7 +43,7 @@
 <script>
   import { mapState } from 'vuex'
   import { getStore, setStore } from '@/utils/utils'
-
+  let Base64 = require('js-base64').Base64
   export default {
     name: 'me_withdraw',
 
@@ -62,7 +62,7 @@
     },
     computed: {
       ...mapState({
-        active: state => state.account.transfer_active,
+        active: state => state.account.account_active,
         sellExchange: state => state.sellExchange,
         buyExchange: state => state.buyExchange,
         userInfo: state => state.userInfo
@@ -92,6 +92,7 @@
                 if(this.user[i].auth_server === 1 && this.user[i].nickname !== '' && this.user[i].headimgurl !== '') {
                   this.ishidden = true
                   this.info = this.user[i]
+                  // this.info.nickname = Base64.decode(this.info.nickname)
                 }
               }
               
@@ -205,7 +206,6 @@
     },
     created () {
       this.getAccountInfo()
-
       const code = this.$route.query.code
       const type = this.$route.query.type
       if (code && type) {
@@ -221,7 +221,7 @@
   .account_withraw {
     .header {
       padding-top: 0.533333rem;
-      height: 7.413333rem;
+      height: 8.413333rem;
       box-sizing: border-box;
       background: linear-gradient(90deg, #ff7d46 0%, #ff4b4b 100%),
         linear-gradient(#ff4c4c, #ff4c4c);

@@ -1,9 +1,13 @@
 <template>
   <div class="me_account">
     <div class="header">
+      <div class="use_title">通用账户(蜂蜜)</div>
+      <div class="use_num">{{Number(account.account_active)}}</div>
+    </div>
+    <!-- <div class="header">
       <div class="use_title">总资产(蜂蜜)</div>
-      <div class="use_num">{{account.total}}</div>
-      <div class="user_mic">购物可抵 {{(account.total*10).toFixed("1")}} 元</div>
+      <div class="use_num">{{account.account_publish}}</div>
+      <div class="user_mic">购物可抵 {{(account.account_publish*10).toFixed("1")}} 元</div>
     </div>
     <div class="total">
       <div class="total_item">
@@ -17,7 +21,7 @@
         </div>
         <div>{{Number(account.account_active)}}</div>
       </div>
-    </div>
+    </div> -->
 
     <van-cell-group class="cell_group">
       <van-cell :title="item.title" is-link :to="item.route" v-for="(item,index) in upgradeList" :key="index">
@@ -25,9 +29,9 @@
       </van-cell>
     </van-cell-group>
 
-    <div class="mic_about">
+    <!-- <div class="mic_about">
       <img src="../../../assets/images/michuan.png" alt="">
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -72,7 +76,7 @@
     },
     created () {
       // 获取账户信息
-      this.$store.dispatch('getUserAccInfo')
+      // this.$store.dispatch('getUserAccInfo')
     },
   }
 </script>
@@ -81,7 +85,7 @@
   .me_account {
     .header {
       padding-top: 1.12rem;
-      height: 6.826667rem;
+      height: 5.826667rem;
       box-sizing: border-box;
       background: url("../../../assets/images/account.png");
       background-size: cover;
@@ -92,7 +96,7 @@
       color: rgba(255, 255, 255, 0.6);
     }
     .use_num {
-      margin: 8px;
+      margin: 12px;
       font-size: 1.92rem;
       font-weight: bold;
     }

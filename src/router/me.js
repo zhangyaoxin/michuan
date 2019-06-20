@@ -223,5 +223,14 @@ export default [{
       reqAuth: true,
       title: '我的二维码'
     }
+  },
+  {
+    path: '/me_agreement',
+    name: 'me_agreement',
+    component: getComponent('views/me/me_agreement'),
+    meta: {
+      reqAuth: true,
+      title: '服务协议'
+    }
   }
 ]

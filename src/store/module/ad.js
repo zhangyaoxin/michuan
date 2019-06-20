@@ -223,16 +223,17 @@ const actions = {
 
     })
     wx.error((res) => {
-      // Toast('wx.ready 失败了')
+      Toast('wx.ready 失败了')
     })
   },
 
   // 分享成功回调
   shareSuccessCb(ctx, id) {
-    api.shareSuccessCb({
-        adv_id: id
-      })
-      .then(data => {})
+  
+    api.shareSuccessCb(id)
+      .then(data => {
+        console.log('liliwen')
+       })
   }
 }
 

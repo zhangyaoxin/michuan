@@ -34,17 +34,15 @@
     <ad-list ref="adList" :searchCond="searchCond"></ad-list>
 
     <!-- 下载app -->
-    <div class="down_app_wrap" v-if="isAndroid">
-      <!-- <router-link to="download"> -->
+    <!-- <div class="down_app_wrap" v-if="isAndroid">
       <a href="http://h5.bvcio.com/d">
         <span>下载App</span>
       </a>
-      <!-- </router-link> -->
-    </div>
+    </div> -->
 
-    <div class="money" @click="buildMoney">
+    <!-- <div class="money" @click="buildMoney">
       <div class="money_title">红包攻略</div>
-    </div>
+    </div> -->
 
   </div>
 </template>
@@ -147,7 +145,7 @@
 <style lang="scss">
   @import "../../assets/css/var";
   .home {
-    margin-bottom: 2.666667rem;
+    padding-bottom: 2.666667rem;
 
     .van-field__left-icon {
       margin-top: 5px;

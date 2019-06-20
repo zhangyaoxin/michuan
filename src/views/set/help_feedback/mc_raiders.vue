@@ -12,7 +12,7 @@
         度、浏览人数有关,可用于发布悬赏任务、购买商品、相互打赏等,还可以直接兑换现金！
       </p>
       <div class="small_head">
-        什么是蜂蜜？
+        赚取蜂蜜的方法
       </div>
       <h1>
         1.传播收益
@@ -74,7 +74,7 @@
     width:100%;
   }
   .rai_sections{
-    background: url(/static/img/bg_fff.a560788.png) no-repeat;
+    background: url("../../../assets/images/bg_fff.png") no-repeat;
     width: 19.52rem;
     height: 21.866667rem;
     margin:.4rem auto 0;

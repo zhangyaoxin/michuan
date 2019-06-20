@@ -23,8 +23,13 @@ export default {
   },
 
   // 获取广告详情
-  getAdDetails: data => {
-    return axios.get('advertise_detail/', {
+  // getAdDetails: data => {
+  //   return axios.get('advertise_detail/', {
+  //     params: data
+  //   })
+  // },
+  getAdDetails (data,id)  {
+    return axios.get('publish/advertise/' + id,{
       params: data
     })
   },
@@ -95,12 +100,16 @@ export default {
     })
   },
 
-  // 分享成功回调
-  shareSuccessCb: id => {
-    return axios.get('count_share', {
-      params: id,
+  //申请JSSDKCONFIG
+  getShareUrl (appID, data) {
+    return axios.post('wechat/jssdk/config/' + appID, data,{
       hasToken: true
     })
+  },
+
+  // 分享成功回调
+  shareSuccessCb: id => {
+    return axios.get('count_share?adv_id=' + id)
   },
 
   // 获取用户发布浏览统计

@@ -78,6 +78,7 @@
   import { mapState } from 'vuex'
   import { getStore, setStore, setPagesTitle } from '@/utils/utils'
   import adList from '@@/ad_list'
+  let Base64 = require('js-base64').Base64
   export default {
     name: 'me_index',
     components: { adList },
@@ -163,6 +164,7 @@
 
       async getUserInfo (id) {
         const { data } = await this.$store.dispatch('getUserInfo', id)
+        // data.nickname = Base64.decode(data.nickname)
         this.info = data
         if (!this.isOwn) {
           setPagesTitle(this.info.nickname + '的主页')

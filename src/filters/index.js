@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import store from '@/store'
-const avatar = require('../assets/images/me_head_icon.png')
+const avatar = require('../assets/images/me_head.png')
 const cover = require('../assets/images/head_icon.png')
 
 Vue.filter('filterViewsNum', (num) => {
@@ -26,6 +26,7 @@ Vue.filter('filterFm', (num) => {
 
 Vue.filter('filterImg', (url, type) => {
   if (url === '') return type === 'avatar' ? avatar : cover
+  if ((url || "").substr(0, 7).toLowerCase() == "http://") return url
   return store.state.qiniuBaseUrl + url
 })
 
@@ -51,4 +52,12 @@ Vue.filter('filterBuyExchange', (num, type) => {
     return num * buy
   }
 
+})
+
+Vue.filter('filterSellExchange', (num, type) => {
+  const buy = store.state.buyExchange
+  const sell = store.state.sellExchange
+  if (type === 'sell') {
+    return Number((num / sell).toFixed(2))
+  }
 })

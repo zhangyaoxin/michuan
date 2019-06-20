@@ -11,7 +11,10 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "vue-cropper": "^0.4.4"
+    "js-base64": "^2.5.1",
+    "vue-baidu-map": "^0.21.19",
+    "vue-cropper": "^0.4.4",
+    "vue-jsonp": "^0.1.8"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -40,6 +43,7 @@
     "file-loader": "^1.1.4",
     "friendly-errors-webpack-plugin": "^1.6.1",
     "html-webpack-plugin": "^2.30.1",
+    "jquery": "^3.4.1",
     "mockjs": "^1.0.1-beta3",
     "node-notifier": "^5.1.2",
     "node-sass": "^4.9.3",

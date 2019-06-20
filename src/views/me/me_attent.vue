@@ -55,7 +55,7 @@
 
   .nothing_icon {
     width: 100%;
-    height: 7.093333rem;
+    height: 9.093333rem;
   }
 
   .fans_title {

@@ -51,6 +51,7 @@
 </template>
 
 <script>
+  let Base64 = require('js-base64').Base64
   import { mapState } from 'vuex'
   export default {
     name: 'browse_user_list',
@@ -106,8 +107,10 @@
                   it.time = it.created_at
                 })
               }
-
               this.userList.push(...lists.data)
+              for(let i = 0; i < this.userList.length; i++) {
+                // this.userList[i].user.nickname = Base64.decode(this.userList[i].user.nickname)               
+              }
               this.browseCount = browse_count
               this.shareCount = share_count
               this.robCount = rob_count

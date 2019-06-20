@@ -12,6 +12,7 @@ import Other from './Other'
 import Mall from './mall'
 import Call from './call'
 import Hall from './hall'
+import NewMap from './newMap'
 
 Vue.use(Router)
 
@@ -19,8 +20,8 @@ export default new Router({
   // mode: 'history',
   routes: [{
     path: '/',
-    name: 'hall',
-    redirect: '/hall'
+    name: 'newMap',
+    redirect: '/newMap'
   },
   {
     path: '/home',
@@ -39,6 +40,7 @@ export default new Router({
   ...Mall,
   ...Call,
   ...Hall,
+  ...NewMap,
   {
     path: 'task_end',
     name: 'task_end',

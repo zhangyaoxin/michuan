@@ -28,7 +28,7 @@ const state = {
   showReminderTime: false,
   reminderTime: 60,
 
-  qiniuBaseUrl: 'http://www.oldda.cn/',
+  qiniuBaseUrl: 'http://res.michuan.online/',
   h5BaseUrl: 'http://h5.bvcio.com/',
   // h5BaseUrl: 'http://47.92.250.127/',
 
