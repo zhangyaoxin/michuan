@@ -199,7 +199,6 @@
         }
         this.$api.getTbGalleryUrls(params)
           .then(data => {
-            console.log('Lyle ==>', data)
             if (data.tbk_item_info_get_response) {
               const arr = data.tbk_item_info_get_response.results.n_tbk_item[0].small_images.string
               this.$set(this.info, 'gallery_urls', arr)
@@ -208,101 +207,49 @@
       },
 
       // 确认兑换
-      handleExchange () {
+      async handleExchange () {
         const type = this.curType
         const { id, price_coupons, } = this.info
 
-        if (!this.isLogin) {
-          this.$router.push('login')
-          return false
+        const arr = [1, 2, 4, 5, 6, 7, 8, 9]
+        console.log(this.info.coupon_link, 'this.info.coupon_link')
+        if (this.info.coupon_click_url) {
+          var coupon_link = 'https:' + this.info.coupon_click_url.split(':')[1]
+        } else {
+          coupon_link = 'https:' + this.info.coupon_link.split(':')[1]
+        } 
+
+        // 转换链接
+        if (type === 2) {
+          console.log('pdd需要转换链接')
+          coupon_link = await this.generatePddUrl()
+        } else if (arr.includes(type)) {
+          console.log('需要转换链接')
+          coupon_link = await this.conversionSponsoredLinks(type)
         }
 
-        if ((price_coupons / 10) > this.active) {
-          this.micNoBalance()
-          return false
+        //除拼多多外 其他类型商品需生成淘口令
+        let tpwd_link = ''
+        if (type !== 2) {
+          tpwd_link = await this.createdTpwd(coupon_link)
+          console.log('tpwd_link ==>', tpwd_link)
         }
 
-        // ${price_coupons} 元
-        this.$dialog.confirm({
-          title: '提示',
-          message: `使用 ${price_coupons / 10} 蜂蜜兑换优惠券？`,
-          className: 'mall_detail_dialog',
-        })
-          .then(async () => {
-            const arr = [1, 2, 4, 5, 6, 7, 8, 9]
-            console.log(this.info.coupon_link, 'this.info.coupon_link')
-            let coupon_link = 'https:' + this.info.coupon_link.split(':')[1]
+        console.log('最终链接为 ==>', coupon_link)
+        this.info.coupon_link = coupon_link
+        this.curMallList = coupon_link
 
-            // 转换链接
-            if (type === 2) {
-              console.log('pdd需要转换链接')
-              coupon_link = await this.generatePddUrl()
-            } else if (arr.includes(type)) {
-              console.log('需要转换链接')
-              coupon_link = await this.conversionSponsoredLinks(type)
-            }
+        // 在微信浏览器中 显示淘口令
+        if (this.isWxBrowse) {
+          this.curMallList = tpwd_link
+          this.info.tpwd_link = tpwd_link
+        }
 
-            //除拼多多外 其他类型商品需生成淘口令
-            let tpwd_link = ''
-            if (type !== 2) {
-              tpwd_link = await this.createdTpwd(coupon_link)
-              console.log('tpwd_link ==>', tpwd_link)
-            }
-
-            console.log('最终链接为 ==>', coupon_link)
-            this.info.coupon_link = coupon_link
-            this.curMallList = coupon_link
-
-            // 在微信浏览器中 显示淘口令
-            if (this.isWxBrowse) {
-              this.curMallList = tpwd_link
-              this.info.tpwd_link = tpwd_link
-            }
-
-            const content = {
-              curType: type,
-              name: this.info.name,
-              thumbnail: this.info.thumbnail,
-              coupon_link,
-              tpwd_link,
-              price: this.info.price,
-            }
-
-            const params = {
-              trade_type: type,
-              product_id: id,
-              mic: price_coupons / 10,
-              coupon: price_coupons,
-              content: JSON.stringify(content)
-            }
-
-            this.$api.micExchangeCoupon(params)
-              .then(data => {
-                console.log('抵换结果 ==>', data)
-                if (data.status) {
-                  if (this.isWxBrowse && type !== 2) {
-                    this.copyCouponLink()
-                  } else {
-                    window.location.href = this.info.coupon_link
-                  }
-                } else {
-                  const code = Number(data.response_code)
-                  switch (code) {
-                    case 10701:
-                      // 蜂蜜不足
-                      this.micNoBalance()
-                      break;
-                    case 10800:
-                      // 重复兑换
-                      this.againExchange()
-                      break;
-                    default:
-                      break;
-                  }
-
-                }
-              })
-          }).catch(() => { });
+        if (this.isWxBrowse && type !== 2) {
+          this.copyCouponLink()
+        } else {
+          window.location.href = this.info.coupon_link
+        }
       },
 
       // 蜂蜜不足
@@ -382,7 +329,6 @@
       createdTpwd (url) {
         return this.$api.createdTpwd({ text: this.info.name, url, logo: this.info.thumbnail })
           .then(data => {
-            console.log(data)
             if (data.tbk_tpwd_create_response) {
               return data.tbk_tpwd_create_response.data.model
             } else {
@@ -411,6 +357,7 @@
       } else {
         const info = JSON.parse(getStore('mallInfo', 'localStorage'))
         this.info = info
+        console.log(this.info)
         this.getTbGalleryUrls(this.curId)
       }
     }

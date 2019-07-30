@@ -30,12 +30,12 @@
           <div class="btn" :class="{'btn_hl':money!=0&&money.length}" @click="handleRecharge()">确认支付</div>
         </van-tab> -->
 
-        <van-tab title="蜜传卡充值">
-          <van-field v-model="card_no" type="number" placeholder="请输入充值卡卡号">
+        <van-tab title="VIP账号充值">
+          <van-field v-model="card_no" type="number" placeholder="请输入VIP账号">
             <img class="recharge_icon" src="../../../assets/images/recharge_code.png" slot="left-icon" alt="">
           </van-field>
 
-          <van-field v-model="card_pwd" type="number" placeholder="请输入充值卡密码">
+          <van-field v-model="card_pwd" type="number" placeholder="请输入VIP账号密码">
             <img class="recharge_icon" src="../../../assets/images/recharge_pw.png" slot="left-icon" alt="">
           </van-field>
 

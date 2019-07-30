@@ -6,7 +6,7 @@
         <!-- <van-icon class="active_tip" name="question-o" @click="activeTip" /> -->
       </div>
       <div class="use_num">{{active|filterBuyExchange('sell')}}</div>
-      <div class="user_mic">折合 {{Number(active)}} 蜂蜜，购物可抵 {{Number(active*10).toFixed("1")}} 元</div>
+      <!-- <div class="user_mic">折合 {{Number(active)}} 蜂蜜，购物可抵 {{Number(active*10).toFixed("1")}} 元</div> -->
       <div class="exchange">当前汇率 1 元 = {{1|filterSellExchange('sell')}} 蜂蜜</div>
     </div>
 
@@ -247,8 +247,10 @@
 
     .use_title {
       color: rgba(255, 255, 255, 0.6);
+      margin-top: 20px;
     }
     .use_num {
+      margin-top: 10px;
       font-size: 1.76rem;
     }
     .user_mic {
@@ -257,9 +259,11 @@
       color: rgba(255, 255, 255, 0.8);
     }
     .exchange {
-      margin: 5px auto;
+      margin: 10px auto;
       padding: 0.106667rem;
       width: 44%;
+      border-radius: 20px;
+      color: rgba($color: #fff, $alpha: 0.8);
       background: rgba(255, 66, 58, 0.6);
     }
     .van-cell {

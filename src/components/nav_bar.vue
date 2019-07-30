@@ -31,6 +31,12 @@
             iconHl: require('@/assets/images/nav_reward_hl.png'),
             route: 'hall'
           },
+          //  {
+          //   title: '电话',
+          //   icon: require('@/assets/images/nav_call.png'),
+          //   iconHl: require('@/assets/images/nav_call_hl.png'),
+          //   route: 'call'
+          // },
            {
             title: '淘商城',
             icon: require('@/assets/images/tao_b.png'),

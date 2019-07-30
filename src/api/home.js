@@ -19,4 +19,12 @@ export default {
       }
     })
   },
+
+  // 搜索商户列表
+  searchShop: (data) => {
+    return axios.get('/merchant/search/list', {
+      params: data,
+      hasToken: true
+    })
+  }
 }

@@ -30,6 +30,11 @@
     methods: {
       // 获取为你推荐列表
       getToYouRecommendList () {
+      //   var api = 'http://api.dataoke.com/index.php?r=Port/index&type=paoliang&appkey=983d239f36&v=2&jsonp=callback'
+      //   this.$jsonp(api).then(res => {
+      //     console.log(1111111)
+      //   });
+
         this.$api.getToYouRecommendList()
           .then(data => {
             console.log(data)

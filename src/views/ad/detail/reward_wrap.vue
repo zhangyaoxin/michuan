@@ -16,17 +16,17 @@
       </div>
     </transition>
 
-    <transition name="reward">
+    <!-- <transition name="reward">
       <div class="reward_money_wrap shareMc" :class="{'share_animation':isShareing}" v-if="isShareMd">
         <span class="reward_money_title" @click="isShareTip=true">分享领红包</span>
       </div>
-    </transition>
+    </transition> -->
 
     <!-- 分享提示 -->
-    <van-popup v-model="isShareTip" position="top" :close-on-click-overlay="false" class="share_tip_wrap">
+    <!-- <van-popup v-model="isShareTip" position="top" :close-on-click-overlay="false" class="share_tip_wrap">
       <img style="width:291px; margin: auto;margin-top:10px;display: block;" src="../../../assets/images/share_tip_title.png" alt="">
       <img style="display: block;width:99px;margin:40px auto;" src="../../../assets/images/share_tip_btn.png" alt="" @click="isShareTip=false">
-    </van-popup>
+    </van-popup> -->
   </div>
 </template>
 
@@ -221,6 +221,7 @@
 
     .reward_circle {
       margin: 0.186667rem !important;
+      z-index: 999;
     }
 
     .reward_bg {
@@ -276,6 +277,7 @@
       background: #ff4c4c;
       background-size: 2.266667rem;
       border-radius: 0.533333rem;
+      z-index: 999;
     }
 
     .reward_money_icon {

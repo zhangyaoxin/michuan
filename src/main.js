@@ -10,6 +10,10 @@ import filter from './filters'
 import './utils/auth'
 import './assets/css/base.scss'
 import $ from 'jquery'
+
+import VueJsonp from 'vue-jsonp'
+Vue.use(VueJsonp)
+
 Vue.use(BaiduMap, {
   // ak 是在百度地图开发者平台申请的密钥 详见 http://lbsyun.baidu.com/apiconsole/key */
   ak: 'trHdY75cpqkWWaUchb0Uf8ctUdrjh8tz'
@@ -17,6 +21,7 @@ Vue.use(BaiduMap, {
 Vue.config.productionTip = false
 Vue.prototype.$api = api
 /* eslint-disable no-new */
+
 new Vue({
   el: '#app',
   store,

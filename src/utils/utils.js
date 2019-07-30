@@ -190,6 +190,8 @@ export const mallUnifiedFormat = (arr = [], type, curType) => {
 
           coupon_info: price_coupons,
           coupon_share_url: coupon_link,
+          //超值推荐优惠券链接
+          coupon_click_url: coupon_click_url,
           coupon_start_time,
           coupon_end_time,
 
@@ -209,6 +211,7 @@ export const mallUnifiedFormat = (arr = [], type, curType) => {
             sales,
             price_coupons: params,
             coupon_link,
+            coupon_click_url,
             coupon_start_time,
             coupon_end_time,
             detail_url,

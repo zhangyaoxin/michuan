@@ -76,6 +76,20 @@ export default {
     })
   },
 
+  // 有赞云同步到本地
+  getyzpData: (data) => {
+    return axios.post('/common/redeem/yzp/to/cg', data, {
+      hasToken: true
+    })
+  },
+
+  // 本地同步到有赞云
+  setyzpData: (data) => {
+    return axios.post('/common/redeem/cg/to/yzp', data, {
+      hasToken: true
+    })
+  },
+
   // 我的等级,徽章列表
   getLevelBadge: (data) => {
     return axios.get('badge', {

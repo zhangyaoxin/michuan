@@ -73,15 +73,6 @@ const actions = {
         console.log('登录结果 ==>', data)
         if (data.status) {
           setStore('token', data.data.token, 'localStorage')
-          const params = {
-            appID: 'wxdddfda3352cb6a08',
-            url: window.location.href.split('#')[0]
-          }
-          const appID = "wxdddfda3352cb6a08"
-          api.getShareUrl(appID, params)
-          .then(data => {
-            console.log(data)
-          })
           // 跳回原来地址
           let fromPath = getStore('fromPath')
           let routePath = {
@@ -121,15 +112,15 @@ const actions = {
             setStore('otherLogin', params)
             router.push('bind_tel')
           } else if (data.response_code === 10108) {
-            api.unbindOtherLogin({
-              auth_server: params.auth_server
-            })
-              .then(data => {
-                if (data.status) {
-                  setStore('isBind', 0)
-                  api.wechatLogin()
-                }
-              })
+            // api.unbindOtherLogin({
+            //   auth_server: params.auth_server
+            // })
+            //   .then(data => {
+            //     if (data.status) {
+            //       setStore('isBind', 0)
+            //       api.wechatLogin()
+            //     }
+            //   })
           } else {
             Toast(data.msg)
           }
@@ -179,16 +170,16 @@ const actions = {
       return res
     } else {
       if (response_code === 10108) {
-        api.unbindOtherLogin({
-          auth_server: otherType
-        })
-          .then(data => {
-            if (data.status) {
-              setStore('isBind', 3)
-              setStore('isBindWx', 1)
-              api.wechatLogin()
-            }
-          })
+        // api.unbindOtherLogin({
+        //   auth_server: otherType
+        // })
+        //   .then(data => {
+        //     if (data.status) {
+        //       setStore('isBind', 3)
+        //       setStore('isBindWx', 1)
+        //       api.wechatLogin()
+        //     }
+        //   })
       } else if (response_code === 10109) {
         Toast.fail(msg)
       } else {
@@ -241,6 +232,12 @@ const actions = {
   }, id) {
     return api.getMeInfo(id)
       .then(data => {
+        if (data.data.from_ng == 1) {
+          commit('changeValue', {
+            type: 'pointMaster',
+            value: true
+          })
+        }
         return {
           res: data.status,
           data: data.data
@@ -282,6 +279,51 @@ const actions = {
       })
   },
 
+  // 同步有赞云数据
+  getyzpState ({
+    commit
+  }) {
+    return api.getyzpData()
+      .then(data => {
+        console.log('有赞云同步本地', data)
+        return {
+          res: data.status,
+          data: data.data
+        }
+      })
+  },
+
+  // 上传有赞云数据
+  setyzpState ({
+    commit
+  }) {
+    api.setyzpData()
+      .then(data => {
+        console.log('本地同步有赞云', data)
+        if (data.status) {
+          commit('changeValue', {
+            type: 'setyzp',
+            value: true
+          })
+        }
+      })
+  },
+
+  // 关键字搜索商户
+  searchList ({commit}, data) {
+    return api.searchShop(data)
+      .then(data => {
+        console.log('搜索商户信息')
+        if (data.status) {
+          // commit('getSearchCont', data.data)
+          return {
+            res: data.status,
+            data: data.data
+          }
+        }
+      })
+  },
+
   // 上传图片至七牛
   async upLoadQIniu ({
     commit,
@@ -291,7 +333,7 @@ const actions = {
       mask: true,
       duration: 0,
       message: '上传中...'
-    });
+    })
 
     try {
       const {
@@ -309,7 +351,6 @@ const actions = {
     } catch (err) {
       Toast.fail('上传失败，请重试')
     }
-
   },
 
   // 获取汇率
@@ -318,7 +359,6 @@ const actions = {
   }) {
     api.getExchangeRate()
       .then(data => {
-        console.log('当前汇率 ==>', data)
         commit('changeValue', {
           type: 'buyExchange',
           value: data.buy_exchange
@@ -326,6 +366,10 @@ const actions = {
         commit('changeValue', {
           type: 'sellExchange',
           value: data.sell_exchange
+        })
+        commit('changeValue', {
+          type: 'payExchange',
+          value: data.pay_exchange
         })
       })
   },

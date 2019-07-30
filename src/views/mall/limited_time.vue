@@ -32,7 +32,7 @@
               <div class="font_size_10">券</div>
             </div>
             <div class="coupon_money">
-              <div class="font_size_10">{{item.price_coupons/10}} 蜂蜜抵 ￥{{item.price_coupons}}</div>
+              <div class="font_size_10">￥{{item.price_coupons}}</div>
             </div>
           </div>
 

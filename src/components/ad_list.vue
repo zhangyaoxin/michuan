@@ -1,24 +1,24 @@
 <template>
-  <div class="ad_list_warp">
+  <div>
+    <div class="ad_list_warp">
     <van-pull-refresh v-model="isLoadRefresh" @refresh="refreshList">
       <van-list v-model="isLoading" :finished="isFinished" @load="pullList" :immediate-check="false">
         <div class="home_ad_item van-hairline--bottom" :class="{'has_read':$route.name==='home'&&item.has_read===1}" v-for="(item,index) in adList" :key="index">
           <div class="ad_user_wrap">
-            <router-link v-if="!item.merchant" :to="{path:'me_index',query:{id:item.user_id}}" class="ad_user_info">
+            <!-- <router-link v-if="!item.merchant" :to="{path:'me_index',query:{id:item.user_id}}" class="ad_user_info">
               <div class="ad_user_avatar">
                 <img :src="item.writer.thumbnail|filterImg('avatar')" alt="">
               </div>
               <div class="ad_user_nickname">{{item.writer.nickname}}</div>
               <img class="ad_user_img" src="./../assets/images/arrow.png" alt="">
-              <!-- <div class="ad_user_level">Lv1</div> -->
             </router-link>
-            <a v-else :href="'http://h5.bvcio.com/mc_b/shop.html?shopId='+item.merchant.hashID" class="ad_user_info">
+            <a v-else :href="'http://h5.bvcio.com/mc_b/shop.html?shopId=' + item.merchant.hashID + '&token='+ item.token" class="ad_user_info">
               <div class="ad_user_avatar">
                 <img :src="item.merchant.logo" alt="">
               </div>
               <div class="ad_user_nickname">{{item.merchant.title}}</div>
               <img class="ad_user_img" src="./../assets/images/arrow.png" alt="">
-            </a>
+            </a> -->
 
             <!-- <div class="ad_user_attent" :class="{'attent':item.is_concern===1}" @click="attentBtn(item.is_concern,item.writer.id,index)" v-if="userId!=item.writer.id">
               <div class="attent_icon"></div>
@@ -50,9 +50,10 @@
       <img class="nothing_icon" src="../assets/images/nothing.png" alt="">
       <p class="fans_title">暂无内容～</p>
     </div>
-
     <!-- 滚动到顶部 -->
     <go-top></go-top>
+  </div>
+  <div class="texts" v-if="isDi">我是有底线的</div>
   </div>
 </template>
 
@@ -81,9 +82,13 @@
 
         adList: [],
 
+        isDi: false,
+
         isOwn: false,
 
-        nothing: false
+        nothing: false,
+        areaNum: '',
+        token: ''
       }
     },
     computed: {
@@ -100,14 +105,21 @@
       getAdList () {
         const page = this.page
         const api = this.api
-        const areaNum = getStore('area_num', 'localStorage')
+        if(!this.areaNum) {
+          this.areaNum = getStore('area_num', 'localStorage')
+          console.log(1)
+        }
+        if(!this.areaNum) {
+         this.areaNum = 100000
+         console.log(2)
+        }
         if (page === 1) this.adList = []
         const own_article = 0
         const params = {
           page,
           status: 4,
           own_article: 0,
-          areaNum,
+          areaNum: this.areaNum,
           ...this.searchCond
         }
 
@@ -117,28 +129,33 @@
 
         this.$api[api](params)
           .then(data => {
-            console.log(api)
             console.log('获取广告列表 ==>', data)
             this.isLoadRefresh = false
             this.isLoading = false
             if (data.status) {
+              // setTimeout(() => {
+              //   if (data.data.data.length === 0) {
+              //     this.nothing = true
+              //   } else {
+              //     this.nothing = false
+              //   }
+              // }, 3000);
+
+              if(data.data.data.length > 3) {
+                this.isDi = true
+              }
               data.data.data.map(it => {
-                it.thumbnail = JSON.parse(it.thumbnail) || {}
-              })
-              this.adList.push(...data.data.data)
-              for (let i = 0; i < this.adList.length; i++) {
-                // this.adList[i].writer.nickname = Base64.decode(this.adList[i].writer.nickname)
-              }
-              if (data.data.total / data.data.per_page <= page) {
-                this.isFinished = true
-              } else {
-                this.isFinished = false
-              }
-              if (this.adList.length === 0) {
-                this.nothing = true
-              } else {
-                this.nothing = false
-              }
+                  it.thumbnail = JSON.parse(it.thumbnail) || {}
+                })
+                this.adList.push(...data.data.data)
+                this.token = getStore('token','localStorage')
+                this.adList[0].token = this.token
+                console.log(this.adList)
+                if (data.data.total / data.data.per_page <= page) {
+                  this.isFinished = true
+                } else {
+                  this.isFinished = false
+                }
             }
           })
           .catch(err => {
@@ -201,12 +218,26 @@
         }
 
       },
+    },
+    created() {
+      this.areaNum = this.$route.query.area_num
     }
   }
 </script>
 
 <style  lang="scss">
   @import "../assets/css/var";
+
+  .texts {
+    font-size: 14px;
+    color: #999;
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .van-hairline--bottom {
+    border-color: #e8e8e8;
+  }
 
   .ad_list_warp {
     padding-left: 0.8rem;

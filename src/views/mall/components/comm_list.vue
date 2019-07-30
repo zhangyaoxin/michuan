@@ -17,7 +17,7 @@
         </div>
         <div class="coupon">
           <div class="coupon_icon">券</div>
-          <div class="coupon_money">{{item.price_coupons/10}} 蜂蜜抵 ￥{{Number(Number(item.price_coupons).toFixed(2))}}</div>
+          <div class="coupon_money">￥{{Number(Number(item.price_coupons).toFixed(2))}}</div>
         </div>
       </div>
     </div>

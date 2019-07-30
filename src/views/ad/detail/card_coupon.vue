@@ -3,15 +3,19 @@
     <div>
       <div class="coupon_item" :class="{'van-hairline--bottom':info.coupon.length>index+1}" v-for="(item,index) in info.coupon" :key="index" @click="useCoupon(item,index)">
           <div class="coupon_card">
-            <div class="coupon_money">
+              <div class="coupon_money">
                 ￥{{item.value/100}}
               </div>
               <div class="coupon_desc">
                 <p style="font-size: 14px; line-height: 20px; color: #ff6b6d">消费满{{item.uselimit/100}}元使用</p>
                 <p style="font-size: 12px; line-height: 20px; color: #ffa1a2">有效期至{{item.end}}</p>
-                <p style="font-size: 12px; line-height: 20px; color: #ffa1a2">仅限本店蜜传支付 每次一张</p>
+                <p style="font-size: 12px; line-height: 20px; color: #ffa1a2">仅限本店蜜传支付 每次1张</p>
+              </div>
+               <div v-if="item.repost === info.userShareTimes" class="coupon_img">
+                  <img src="./../../../assets/images/linque.png" alt="">
               </div>
           </div>
+          <div class="coupon_tips" v-if="item.repost !== info.userShareTimes && isLogin ">获得优惠券需要<span>{{item.repost - info.userShareTimes}}</span>人浏览您的分享，加油！</div>
       </div>
     </div>
     <!-- 优惠码 -->
@@ -27,6 +31,7 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
   export default {
     name: 'card_coupon',
     components: {},
@@ -38,6 +43,11 @@
         isShowCouponCode: false,
         curCouponCode: '',
       }
+    },
+    computed: {
+      ...mapState({
+        isLogin: state => state.isLogin
+      }),
     },
     methods: {
       // 使用优惠券
@@ -137,10 +147,23 @@
     }
     .coupon_desc {
       position: absolute;
-      top: 14px;
-      left: 116px;
+      top: 12px;
+      left: 106px;
       width: 200px; 
       height: 70px;
+    }
+
+    .coupon_img {
+      width: 60px;
+      height: 60px;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 8px;
+      img {
+        width: 100%;
+        height: 100%;
+      }
     }
 
     // .used_coupon {
@@ -263,6 +286,15 @@
       height: 50px;
       line-height: 48px;
       text-align: center;
+    }
+  }
+
+  .coupon_tips {
+    color: #999;
+    text-align: center;
+    margin-top: 10px;
+    span {
+      color: #ff3c3e;
     }
   }
 </style>

@@ -33,9 +33,7 @@ router.beforeEach(async (to, from, next) => {
   const auth = to.meta.reqAuth
   const localToken = getStore('token', 'localStorage')
   const userInfo = getStore('userInfo', 'sessionStorage')
-  console.log('isConnection  ==>', isConnection)
 
-  console.log(auth)
   // 记住登录前的路由
   const blackList = ['login', 'err_404', 'bind_tel', 'valid_tel', 'reset_pw', null]
   if (!blackList.includes(from.name)) {

@@ -64,7 +64,7 @@
         <div class="info_item line"></div>
         <div class="info_item">
           <div class="info_item_num">{{Number(account.account_cashgift)|filterTotal(num)}}</div>
-          <div class="info_item_title">蜜传卡(蜂蜜) </div>
+          <div class="info_item_title">VIP账户(蜂蜜) </div>
           <!-- <div class="info_item_title"> 购物可抵 {{(total_sum*10).toFixed("1")}} 元 </div> -->
         </div>
       </div>
@@ -92,9 +92,14 @@
     </div> -->
     <van-cell-group style="margin-bottom: 15px">
       <van-cell is-link :to="{path:'call'}|filterJump(isLogin)">
-        <span>蜜传卡电话</span>
+        <span>蜜传电话</span>
         <img class="list_icon" slot="icon" src="../../assets/images/tel_icon.png" alt="">
         <div class="list_sub">每分钟1蜂蜜</div>
+      </van-cell>
+      <van-cell is-link v-if="userInfo.from_ng == 1" @click="goDetailyzp">
+        <span>VIP账户兑换商城</span>
+        <img class="list_icon" slot="icon" src="../../assets/images/icon-shop_icon@2x.png" alt="">
+        <!-- <div class="list_sub">每分钟1蜂蜜</div> -->
       </van-cell>
     </van-cell-group>
     <van-cell-group class="cell_group">
@@ -122,7 +127,7 @@
           thumbnail: '',
           badges: {},
         },
-
+        goYzp:false,
         today_sum: 0,
         total_sum: 0,
 
@@ -205,7 +210,9 @@
     computed: {
       ...mapState({
         isLogin: state => state.isLogin,
-        account: state => state.account
+        account: state => state.account,
+        pointMaster: state => state.pointMaster,
+        setyzp: state => state.setyzp
       }),
     },
     methods: {
@@ -214,12 +221,20 @@
         if (!this.isLogin) return false
         const { data, res } = await this.$store.dispatch('getUserInfo')
         if (!res) return false
-        console.log(data)
+        // console.log(data)
         // data.nickname = s.decode(data.nickname)
         this.userInfo = data
-        console.log(this.userInfo)
+        // console.log(this.userInfo)
         setStore('userInfo', this.userInfo)
-        this.$store.dispatch('getUserAccInfo')
+        if(this.userInfo.from_ng == 1){
+          this.$store.dispatch('getyzpState')
+            .then((response)=>{
+              console.log('getSuccess',response)
+              this.$store.dispatch('getUserAccInfo')
+            })
+        }else{
+          this.$store.dispatch('getUserAccInfo')
+        }
         // this.$api.getAccountInfo()
         // .then(data => {
         //   console.log(data)
@@ -237,7 +252,23 @@
 
       activeTip () {
         this.$toast('可提现金额 = 总资产-上架状态中预算余额总和')
+      },
+
+      async goDetailyzp(){
+        this.$store.dispatch('setyzpState')
+        this.goYzp = true;
+        
       }
+    },
+    mounted() {
+      this.$watch('setyzp', (e) => {
+        console.log(e,'setzyp',this.goYzp)
+        if(this.goYzp && e){
+          location.href = 'https://shop43341827.youzan.com/'
+          setStore('setzyp', false)
+          this.goYzp = false;
+        }
+       })
     },
     created () {
       setTimeout(() => {

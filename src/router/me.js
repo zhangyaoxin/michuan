@@ -14,7 +14,7 @@ export default [{
   {
     path: '/me_account',
     name: 'me_account',
-    component: getComponent('views/me/me_account/index'),
+    component: getComponent('views/me/me_account/account_index'),
     meta: {
       reqAuth: true,
       title: '我的账户'

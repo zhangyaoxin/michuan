@@ -26,13 +26,19 @@
           <div class="user_nickname">{{info.writer.nickname}}</div>
           <img style="width: 24px; height:24px;  position: absolute; right: 0; top: 1px;" src="./../../../assets/images/arrow.png" alt="">
         </router-link>
-        <a :href="'http://h5.bvcio.com/mc_b/shop.html?shopId='+info.merchant.hashID" class="put_user_info" v-else>
+        <a :href="'http://h5.bvcio.com/mc_b/shop.html?shopId=' + info.merchant.hashID + '&token='+ this.token" class="put_user_info" v-else>
           <div class="user_avatar">
             <img :src="info.merchant.logo" alt="">
           </div>
-          <div class="user_nickname">{{info.merchant.title}}</div>
+          <div class="user_nickname">{{info.merchant.sub_title}}</div>
           <img style="width: 24px; height:24px;  position: absolute; right: 0; top: 1px;" src="./../../../assets/images/arrow.png" alt="">
         </a>
+        <!-- 拨打电话 -->
+        <!-- <div v-if="info.phone" class="ad_phone"> -->
+          <a :href="'tel:' + info.phone" v-if="info.phone" class="ad_phone">
+            <!-- <img src="./../../../assets/images/tel.png" alt=""> -->
+          </a>
+        <!-- </div> -->
 
           <!-- <div class="user_level">Lv1</div>
 
@@ -67,7 +73,7 @@
     <card-coupon :info="info"></card-coupon>
 
      <!-- 倒计时 -->
-    <div v-if="info.start_time" style="margin-top: 12px;background: #fff; padding: 10px 0; border-bottom: 1px solid #e8e8e8;">
+    <div v-if="info.start_time && info.start_time != 0" style="margin-top: 12px;background: #fff; padding: 10px 0; border-bottom: 1px solid #e8e8e8;">
        <countDown
             :start_time="Number(info.start_time)"
             :end_time="Number(info.end_time)" 
@@ -96,13 +102,13 @@
     <!-- <div class="qr_code_wrap">
       <img src="../../../assets/images/me_about.png" alt="">
     </div> -->
-
     <!-- 奖励浮窗 -->
-    <reward-wrap :isGetAward="isGetAward" v-if="Number(info.pre_bvt)"></reward-wrap>
+    <reward-wrap :isGetAward="isGetAward" v-if="info.reward.length>0"></reward-wrap>
 
     <!-- 底部悬浮框 -->
     <!-- <float-box></float-box> -->
-
+    <!-- 领取优惠劵 -->
+    <couponWarp v-if="info.reward.length == 0 && info.coupon.length > 0"></couponWarp>
     <!-- 播放音频 -->
     <div v-if="info.bgm">
       <span id="musicControl">
@@ -115,14 +121,44 @@
     </div>
 
 
-    <!-- 拨打电话 -->
-    <div v-if="info.phone" class="ad_phone">
-      <a :href="'tel:' + info.phone">
-        <img src="./../../../assets/images/tel.png" alt="">
-      </a>
-    </div>
-
     <div class="text">本页面由蜜传提供技术支持</div>
+     <!-- 浮动条 -->
+     <div class="float_bar">
+       <router-link :to="{path: '/newMap'}" class="float_home">
+         <img src="./../../../assets/images/redhome.png" alt="">
+         <div>首页</div>
+       </router-link>
+       <router-link style="margin-left: 5px" :to="{path: '/hall'}" class="float_home">
+         <img src="./../../../assets/images/redpackage.png" alt="">
+         <div>抢红包</div>
+       </router-link>
+       <div class="float_box">
+        <router-link :to="{path:'me_index',query:{id:info.user_id}}" v-if="info.merchant == null" class="float_ta">
+         <img src="./../../../assets/images/Ta.png" alt="">
+         <span>Ta的主页</span>
+        </router-link>
+        <a :href="'http://h5.bvcio.com/mc_b/shop.html?shopId=' + info.merchant.hashID + '&token='+ this.token" v-else class="float_ta">
+         <img src="./../../../assets/images/Ta.png" alt="">
+         <span>Ta的主页</span>
+        </a>
+        <div @click="isShareTip=true" v-if="info.reward.length>0" class="float_share">
+          <img src="./../../../assets/images/shareh.png" alt="">
+          <span>分享赚蜂蜜</span>
+        </div>
+        <div @click="isShareTips=true" v-else class="float_share">
+          <img src="./../../../assets/images/shareh.png" alt="">
+          <span>分享给好友</span>
+        </div>
+       </div>
+     </div>
+     <van-popup v-model="isShareTip" position="top" :close-on-click-overlay="false" class="share_tip_wrap">
+      <img style="width:291px; margin: auto;margin-top:10px;display: block;" src="../../../assets/images/share_tip_title.png" alt="">
+      <img style="display: block;width:99px;margin:40px auto;" src="../../../assets/images/share_tip_btn.png" alt="" @click="isShareTip=false">
+    </van-popup>
+    <van-popup v-model="isShareTips" position="top" :close-on-click-overlay="false" class="share_tip_wrap">
+      <img style="width:291px; margin: auto;margin-top:10px;display: block;" src="../../../assets/images/share_tips_title.png" alt="">
+      <img style="display: block;width:99px;margin:40px auto;" src="../../../assets/images/share_tips_btn.png" alt="" @click="isShareTips=false">
+    </van-popup>
   </div>
 </template>
 
@@ -132,34 +168,42 @@
   import cardCoupon from './card_coupon'
   import rewardWrap from './reward_wrap'
   import floatBox from './bottom_float_box'
+  import couponWarp from './coupon_wrap'
   import wx from 'wx'
   let Base64 = require('js-base64').Base64
   import { mapState } from 'vuex'
   import { browserVersions, getStore, setStore } from '@/utils/utils'
+import user from '../../../api/user';
   export default {
     name: 'ad_details',
     props: {},
-    components: { browseUserList, cardCoupon, rewardWrap, floatBox, countDown },
+    components: { browseUserList, couponWarp, cardCoupon, rewardWrap, floatBox, countDown },
     data () {
       return {
         shareUserId: '',
         curAdId: '',
+        isShareTip: false,
+        isShareTips: false,
         // 广告详情
         info: {
           user_id: -1,
           coupon: [],
           thumbnail: {},
-          writer: {}
+          writer: {},
+          reward: []
         },
+        wechatSel: false,
+        wechatUrl: '',
 
         // 是否显示奖励浮窗
         isShowReward: false,
-
+        ShareImg: '',
         // 是否自动上架
         isAutoShelf: true,
 
         isGetAward: false,
         isMusic: false,
+        token: ''
       }
     },
     computed: {
@@ -189,25 +233,98 @@
         }
         this.$api.getAdDetails(params,id)
           .then(data => {
+            this.token = getStore('token','localStorage')
             if (data.status) {
               if (data.data.status === 4 || data.data.user_id == user_id) {
                 this.handleBrowseHistory(data.data)
                 this.info = data.data
                 // this.info.writer.nickname = Base64.decode(this.info.writer.nickname)
                 console.log(this.info)
+                console.log(this.info.userShareTimes)
                 this.info.thumbnail = JSON.parse(this.info.thumbnail) || {}
                 const content = this.parseContent(JSON.parse(this.info.content) || [])
                 this.info.content = content
-                this.isGetAward = this.info.get_browse_award === 0 || data.data.user_id == user_id
-                // const shareUrl = this.h5BaseUrl + 'statics/tranfer_page.html' + '?lyle=ad_details?id=' + this.info.id + '&share_id=' + user_id
-                const shareUrl = this.h5BaseUrl + '#/ad_details?id=' + this.info.id + '&share_id=' + user_id
-                console.log(shareUrl)
-                this.$store.dispatch('setShareInfo', {
-                  id: this.info.id,
+                this.isGetAward = this.info.get_browse_award === 0 || data.data.user_id == user_id 
+                console.log(this.isGetAward)
+                const host = "http://h5.bvcio.com/api";
+                const appId = "wx19bdb96099591fef";
+                // const shareUrl = window.location.href.split('#')[0] + '/#/ad_details?id=' +this.info.id + '&share_id=' + user_id
+                const shareUrl = this.h5BaseUrl + '?#/ad_details?id=' +this.info.id + '&share_id=' + user_id
+                const adviseId = this.info.id
+                if(this.info.share_img) {
+                  this.ShareImg = 'http://res.michuan.online/' + this.info.share_img
+                } else {
+                  this.ShareImg = 'http://res.michuan.online/Ft4gl6oUhaakOGdX88nHF0qMH4MF'
+                }
+                const shareData = {
                   title: this.info.title || '无题',
                   desc: this.info.sub_title || '浏览转发都赚钱',
                   link: shareUrl,
-                  imgUrl: 'http://res.michuan.online/' + this.info.thumbnail.url,
+                  imgUrl: this.ShareImg
+                }
+                console.log(shareData,'11111111111111')
+                const wxCallbacks = {
+                  //分享成功
+                  confirm : function(resp) {
+			              shareSuccessCb(adviseId)
+                  },
+                }
+                var _url = encodeURIComponent(location.href.split("#")[0]);
+                $.ajax({
+                  type: "post",
+                  url: host + "/wechat/jssdk/config/" + appId + "?url=" + _url,
+                  dataType: "json",
+                  headers: {
+                    "mc-token": localStorage.token,
+                    platform: 2
+                  },
+                  success: function(res) {
+                    wx.config(res);
+                    wx.ready(function() {
+                      wx.onMenuShareAppMessage({
+                        title: shareData.title,
+                        desc: shareData.desc,
+                        link: shareData.link,
+                        imgUrl: shareData.imgUrl,
+                        success: function () {
+                          console.log('成功')
+                          $.ajax({
+                            type: "get",
+                            url: host + "/count_share?adv_id=" + adviseId,
+                            dataType: "json",
+                            headers: {
+                              "mc-token": localStorage.token,
+                              platform: 2
+                            },
+                            success: function(res) {
+                              console.log(res,'12')
+                            }
+                          })
+                        }
+                      })
+                      wx.onMenuShareTimeline({
+                        title: shareData.title,
+                        link: shareData.link,
+                        imgUrl: shareData.imgUrl,
+                        success: function () {
+                          console.log('成功')
+                          $.ajax({
+                            type: "get",
+                            url: host + "/count_share?adv_id=" + adviseId,
+                            dataType: "json",
+                            headers: {
+                              "mc-token": localStorage.token,
+                              platform: 2
+                            },
+                            success: function(res) {
+                              console.log(res,'12')
+                            }
+                          })
+                        }
+                      })
+                    })
+                  },
+                 error: function(res) {}
                 })
               } else {
                 this.$router.replace('task_end')
@@ -264,6 +381,14 @@
           })
       },
 
+      getQueryString(name) {//根据字段看网址是否拼接&字符串
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null)
+          return unescape(r[2]);
+        return null;
+      },
+
       handleBrowseHistory (data) {
         const history = getStore('browseHistory', 'localStorage')
         const historyList = history ? JSON.parse(history) : []
@@ -276,7 +401,6 @@
       },
        wechatLogin (code) {
         const platform = browserVersions().mobile || browserVersions().iPad ? 2 : 3
-        console.log(platform)
         const params = {
           login_platform: platform,
           login_location: '南京',
@@ -295,45 +419,29 @@
     created () {
       const id = this.$route.query.id
       this.curAdId = id
-      console.log(this.curAdId)
       setStore('curAdId', id, 'localStorage')
       this.shareUserId = this.$route.query.share_id
-      console.log(this.shareUserId)
-      if(!this.isLogin) {
-        const redirect_uri = encodeURIComponent(document.location.toString().replace('/#/ad_details?id=' + id, ''))
-        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx19bdb96099591fef&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=wechat#wechat_redirect`
-         const formatUrl = window.location.search.split('?').pop().split('&')
-         let arr = []
-         for (let it of formatUrl) {
-           arr.push(it.split('='))
-         }
-         const map = new Map(arr)
-         const value = decodeURIComponent(map.get('label'))
-         const loginType = map.get('state') || this.$route.query.state
-         const code = map.get('code') || this.$route.query.code
-         const platform = browserVersions().mobile || browserVersions().iPad ? 2 : 3
-        if (loginType) {
-        this.wechatLogin(code)
-        }
-        //  const params = {
-        //    login_platform: platform,
-        //    login_location: '南京',
-        //  }
-        //  this.$api.wechat(params, code)
-        //  .then(data => {
-        //    console.log(data)
-        //     if(data.status) {
-        //       setStore('token', data.data.token, 'localStorage')
-        //       this.$store.commit('changeAd', {type: 'isLogin',value: true})
-        //     }
-        //   })
+      const from = this.getQueryString('from');
+      if (from) {//假如拼接上了
+        window.location.href = this.h5BaseUrl + '#/ad_details?id=' + this.curAdId + '&share_id=' + this.shareUserId 
       }
-      // this.$store.dispatch('getShareConfig')
-      //   .then(data => {
-      //     if (data) {
-      //       this.getAdDetails()
-      //     }
-      //   })
+      // if(!this.isLogin) {
+      //   const redirect_uri = encodeURIComponent(document.location.toString())
+      //   window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx19bdb96099591fef&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=wechat#wechat_redirect`
+      //    const formatUrl = window.location.search.split('?').pop().split('&')
+      //    let arr = []
+      //    for (let it of formatUrl) {
+      //      arr.push(it.split('='))
+      //    }
+      //    const map = new Map(arr)
+      //    const value = decodeURIComponent(map.get('label'))
+      //    const loginType = map.get('state') || this.$route.query.state
+      //    const code = map.get('code') || this.$route.query.code
+      //    const platform = browserVersions().mobile || browserVersions().iPad ? 2 : 3
+      //   if (loginType) {
+      //   this.wechatLogin(code)
+      //   }
+      // }
       this.getAdDetails()
     },
     mounted () { }
@@ -353,52 +461,48 @@
     text-align: center;
     background: #fff;
     padding: 10px 0;
+    padding-bottom: 60px;
   }
   .ad_phone {
-    position: fixed;
-    right: .8rem;
-    top: 56%;
+    position: absolute;
+    right: 1.133333rem;
+    top: 12px;
+    width: 24px;
+    height: 24px;
     transform: translateY(-50%);
-    a {
-      display: inline-block;
-      width: 1.866667rem;
-      height: 1.866667rem;
-      border-radius: 1.866667rem;
-      background-color: rgba($color: #26c73d, $alpha: .5);
-      img {
-        margin-left: .373333rem;
-        margin-top: .426667rem;
-        width: 1.1rem;
-        height: 1.1rem;
-      }
-    }
+    z-index: 999;
+    background-image: url('./../../../assets/images/tel.png');
+    background-size: contain;
   }
   #musicControl {
     position:fixed;
-    right: .8rem;
-    top:50%;
+    right: 1.3rem;
+    top: 180px;
     transform:translateY(-50%);
     margin-top:0;
     display:inline-block;
+    z-index: 999;
   }
   .on {
     display: inline-block;
-    width: 1.866667rem;
-    height: 1.866667rem;
-    border-radius: 1.866667rem;
+    width: 37px;
+    height: 37px;
+    border-radius: 37px;
     overflow: hidden;
-    background-position: 4px center !important;
-    background: url('./../../../assets/images/music.png') no-repeat rgba($color: #000000, $alpha: .4);
-    background-size: 70%;
+    // background-position: 4px center !important;
+    background: url('./../../../assets/images/music.png') no-repeat;
+    background-size: contain;
+    z-index: 999;
   }
  .off {
     display: inline-block;
-    width: 1.866667rem;
-    height: 1.866667rem;
-    border-radius: 1.866667rem;
+    width: 37px;
+    height: 37px;
+    border-radius: 37px;
     overflow: hidden;
-    background: url('./../../../assets/images/music_del.png') no-repeat rgba($color: #000000, $alpha: .4);
-    background-size: 89%;
+    background: url('./../../../assets/images/music_del.png') no-repeat ;
+    background-size: contain;
+    z-index: 999;
   }
   #musicControl a audio{
     width:100%;
@@ -418,5 +522,84 @@
     top:0;
     left:0;   
   }
-  
+
+  .float_bar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    background-color: #fff;
+    box-shadow: 1px -3px 20px rgba($color: #000000, $alpha: 0.1)
+  }
+  .float_home {
+    display: inline-block;
+    width: 40px;
+    height: 50px;
+    margin-left: 15px;
+    img {
+      width: 1.173333rem;
+      height: 1.173333rem;
+      margin-left: 9px;
+      margin-top: 5px;
+    }
+    div {
+      text-align: center;
+      font-size: 10px;
+    }
+  }
+  .float_box {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    width: 240px;
+  }
+  .float_ta {
+    display: inline-block;
+    width: 115px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 20px 0 0 20px;
+    margin-right: -5px;
+    background: -webkit-linear-gradient(left,#fbba58,#fc9523); /* Safari 5.1 - 6 */
+    background: -o-linear-gradient(right,#fbba58,#fc9523); /* Opera   11.1 - 12*/
+    background: -moz-linear-gradient(right,#fbba58,#fc9523); /* Firefox   3.6 - 15*/
+    background: linear-gradient(to right, #fbba58, #fc9523); /* 标准的语法 */
+    img {
+      width: 16px;
+      height: 14px;
+      margin-left: 20px;
+      margin-right: 5px;
+      margin-top: 13px;
+    }
+    span {
+      color: #fff;
+    }
+  }
+  .float_share {
+    display: inline-block;
+    width: 125px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 0 20px 20px 0;
+    background: -webkit-linear-gradient(left,#fc5154,#ff2d2f); /* Safari 5.1 - 6 */
+    background: -o-linear-gradient(right,#fc5154,#ff2d2f); /* Opera   11.1 - 12*/
+    background: -moz-linear-gradient(right,#fc5154,#ff2d2f); /* Firefox   3.6 - 15*/
+    background: linear-gradient(to right, #fc5154, #ff2d2f); /* 标准的语法 */
+    img {
+      width: 14px;
+      height: 14px;
+      margin-left: 16px;
+      margin-right: 5px;
+      margin-top: 13px;
+    }
+    span {
+      color: #fff;
+    }
+  }
+  .share_tip_wrap {
+     background: transparent;
+   }
+   .van-modal {
+     background-color: rgba(0, 0, 0, 0.8);
+   }
 </style>

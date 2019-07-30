@@ -49,7 +49,7 @@
       getMallRecommendList () {
         this.$api.getMallRecommendList()
           .then(data => {
-            console.log(data)
+            console.log('data => ', data)
             const arr = mallUnifiedFormat(data.tbk_uatm_favorites_item_get_response.results.uatm_tbk_item, 'tb')
             this.list = arr
           })

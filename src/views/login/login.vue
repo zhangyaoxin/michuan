@@ -222,8 +222,11 @@
             //   const { data } = this.$store.dispatch('getUserInfo')
             //   setStore('userInfo', data)
             // }
+            console.log(routePath)
             this.$store.commit('changeAd', {type: 'isLogin',value: true})
+           
             this.$router.replace(routePath)
+            
           }
         })
       },

@@ -47,7 +47,7 @@ Vue.filter('filterBuyExchange', (num, type) => {
   if (type === 'buy') {
     return Number((num / buy).toFixed(2))
   } else if (type === 'sell') {
-    return Number((num * sell).toFixed(2))
+    return Number((num * sell).toFixed(3))
   } else {
     return num * buy
   }
@@ -59,5 +59,12 @@ Vue.filter('filterSellExchange', (num, type) => {
   const sell = store.state.sellExchange
   if (type === 'sell') {
     return Number((num / sell).toFixed(2))
+  }
+})
+
+Vue.filter('filterPay',(num, type) => {
+  const pay = store.state.payExchange
+  if(type === 'pay') {
+    return Number((num * pay).toFixed(2))
   }
 })

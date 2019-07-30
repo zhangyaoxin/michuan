@@ -23,6 +23,9 @@ const state = {
 
   account: {},
 
+  // 判断用户是否为点位主
+  pointMaster: false,
+
   // 获取验证码
   timer: null,
   showReminderTime: false,
@@ -31,10 +34,17 @@ const state = {
   qiniuBaseUrl: 'http://res.michuan.online/',
   h5BaseUrl: 'http://h5.bvcio.com/',
   // h5BaseUrl: 'http://47.92.250.127/',
-
+  // 有赞云
+  setyzp: false,
+  // 定位信息
+  addressData: {
+    city: '',
+    poi: ''
+  },
   // 汇率
   buyExchange: 0,
   sellExchange: 0,
+  payExchange: 0,
 
   // 未读消息数量
   unreadMsgList: {},

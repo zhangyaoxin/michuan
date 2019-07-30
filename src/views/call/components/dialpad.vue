@@ -33,7 +33,7 @@
 
     <!-- 规则弹窗 -->
     <van-popup class="dialpad_rule_wrap" v-model="isShowRuleMd" overlay-class="rule_md">
-      <div>1. 蜜传卡中的蜂蜜都可以用于通话。</div>
+      <div>1. VIP账户中的蜂蜜都可以用于通话。</div>
       <div>2. 通话资费为每分钟1蜂蜜，不足1分钟的按1分钟计算</div>
       <div>3. 蜜传采用回拨方式通话，呼叫对方号码后，您将收到一个专线来电，接听即可通话</div>
       <div>4. 拨打本地固定电话时需要加区号。暂不支持400电话和特殊号码，例如110、120等</div>

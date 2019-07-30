@@ -112,5 +112,12 @@ export default {
   // 获取app下载地址
   getAppDownloadLink: () => {
     return axios.get('get_new_version')
+  },
+
+  //用户在广告详情获取优惠券
+  getDeatailsCoupon (data,adID,shareID) {
+    return axios.post('publish/coupon/' + adID + '/' + shareID, data, {
+      hasToken: true
+    })
   }
 }

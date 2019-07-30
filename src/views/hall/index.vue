@@ -93,7 +93,6 @@
       getSwipe () {
         this.$api.getCarousel()
           .then(data => {
-            console.log('获取轮播图列表 ==>', data)
             if (data.status) {
               this.swipeList = data.data.data
             }

@@ -200,8 +200,8 @@ const actions = {
   setShareInfo({
     dispatch
   }, params) {
+    console.log(params)
     wx.ready(() => {
-      // Toast('wx.ready 成功')
       wx.onMenuShareAppMessage({
         title: params.title,
         desc: params.desc,
@@ -210,7 +210,7 @@ const actions = {
         success: function () {
           dispatch('shareSuccessCb', params.id)
         }
-      });
+      })
 
       wx.onMenuShareTimeline({
         title: params.title,
@@ -219,6 +219,25 @@ const actions = {
         success: function () {
           dispatch('shareSuccessCb', params.id)
         },
+      })
+
+      wx.updateAppMessageShareData({
+        title: params.title,
+        desc: params.desc,
+        link: params.link,
+        imgUrl: params.imgUrl,
+        success: function () {
+          dispatch('shareSuccessCb', params.id)
+        }
+      })
+
+      wx.updateTimelineShareData({
+        title: params.title,
+        link: params.link,
+        imgUrl: params.imgUrl,
+        success: function () {
+          dispatch('shareSuccessCb', params.id)
+        }
       })
 
     })
@@ -232,7 +251,7 @@ const actions = {
   
     api.shareSuccessCb(id)
       .then(data => {
-        console.log('liliwen')
+        console.log('成功')
        })
   }
 }

@@ -53,6 +53,7 @@
 <script>
   let Base64 = require('js-base64').Base64
   import { mapState } from 'vuex'
+  import { setStore } from '@/utils/utils'
   export default {
     name: 'browse_user_list',
     props: {
@@ -94,7 +95,6 @@
         if (page === 1) {
           this.userList = []
         }
-        console.log(user_id, id, api, this.title, 'llllllllllllll')
         this.$api[api]({ id, user_id, page })
           .then(data => {
             console.log(api + '获取用户列表 ==>', data)

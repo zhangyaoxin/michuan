@@ -119,7 +119,7 @@ import dialpadVue from '../../call/components/dialpad.vue';
           setStore('isBind', 1)
           this.bindOtherLogin(type)
         } else {
-          this.unbindOtherLogin(type)
+          // this.unbindOtherLogin(type)
         }
       },
 
