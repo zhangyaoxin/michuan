@@ -51,7 +51,8 @@ export default {
       loginHref :'',
       // appId :'wx19bdb96099591fef',
       // appId :'wxba613552f366aafb',//本地测试
-      appId :'wxdddfda3352cb6a08',//测试环境
+      // appId :'wxdddfda3352cb6a08',//测试环境
+      appID: 'wx2ac945967be6eb17', // zyx
       host : "http://h5.bvcio.com/api",
       marker:[]
     };
@@ -272,28 +273,30 @@ export default {
         _this.cityName = _this.$store.state.addressData.city
         _this.getlist(_this.Bmap,_this.map)
       }else{
-        if (code != "" && code != null) {
-          if (localStorage.token && localStorage.openId) {
-            console.log('getWxLocation执行')
-            getWxLocation();
-          } else {
-            doV1Login(_this.appId, localStorage.wxCode, 2, "南京");
-          }
-        }else if(urlAreaNum){
-          localStorage.area_num = urlAreaNum
-          for(var i in ajes.city_list){
-            // console.log(i.substr(0, 4),localStorage.area_num.substr(0, 4))
-            if(i.substr(0, 4)== localStorage.area_num.substr(0, 4)){
-              _this.cityName = ajes.city_list[i].replace('市','')
-              _this.$refs.navs.cityInputVal = _this.cityName;
-              _this.$refs.navs.addressCity = _this.cityName;
-            }
-          }
-          _this.getlist(_this.Bmap,_this.map)
-        }
-         else {
-          window.location.href = cdxUrl;
-        }}
+        // code = '11'
+        // if (code != "" && code != null) {
+        //   if (localStorage.token && localStorage.openId) {
+        //     console.log('getWxLocation执行')
+        //     getWxLocation();
+        //   } else {
+        //     doV1Login(_this.appId, localStorage.wxCode, 2, "南京");
+        //   }
+        // }else if(urlAreaNum){
+        //   localStorage.area_num = urlAreaNum
+        //   for(var i in ajes.city_list){
+        //     // console.log(i.substr(0, 4),localStorage.area_num.substr(0, 4))
+        //     if(i.substr(0, 4)== localStorage.area_num.substr(0, 4)){
+        //       _this.cityName = ajes.city_list[i].replace('市','')
+        //       _this.$refs.navs.cityInputVal = _this.cityName;
+        //       _this.$refs.navs.addressCity = _this.cityName;
+        //     }
+        //   }
+        //   _this.getlist(_this.Bmap,_this.map)
+        // }
+        //  else {
+        //   window.location.href = cdxUrl;
+        // }
+      }
       function getWxLocation() {
         $.ajax({
           type: "post",
